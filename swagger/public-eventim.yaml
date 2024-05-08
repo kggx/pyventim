@@ -1,0 +1,992 @@
+openapi: 3.0.0
+info:
+  title: flows/flows Mitmproxy2Swagger
+  version: 1.0.0
+servers:
+  - url: https://public-api.eventim.com
+    description: The default server
+  - url: https://api.eventim.com
+    description: The default server
+paths:
+  /evi/api/evi/public/rule:
+    get:
+      summary: GET rule
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revision:
+                    type: number
+                  features:
+                    type: object
+                    properties: {}
+                  rules:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        data:
+                          type: object
+                          properties:
+                            text_consent_after:
+                              type: string
+                            title_success:
+                              type: string
+                            text_above:
+                              type: string
+                            text_alreadyregistered:
+                              type: string
+                            text_below:
+                              type: string
+                            text_identity_feature_blacklisted:
+                              type: string
+                            title:
+                              type: string
+                            title_inputMail:
+                              type: string
+                            error_consent_check:
+                              type: string
+                            text_helpinputfield:
+                              type: string
+                            error_wrongformateMail:
+                              type: string
+                            text_consent_before:
+                              type: string
+                            text_doi_sent:
+                              type: string
+                            error_missingdata:
+                              type: string
+                            title_error:
+                              type: string
+                            label_button:
+                              type: string
+                            link_consent:
+                              type: string
+                            text_success:
+                              type: string
+                            title_doi_sent:
+                              type: string
+                            title_alreadyregistered:
+                              type: string
+                            link_consent_text:
+                              type: string
+                        doubleOptInType:
+                          type: string
+                        name:
+                          type: string
+                        actions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              version:
+                                type: number
+                              type:
+                                type: string
+                              permissionLinks:
+                                type: array
+                                items: {}
+                              data:
+                                type: object
+                                properties:
+                                  mail.text.regards:
+                                    type: string
+                                  mail.doubleOptInAlreadyGranted.text:
+                                    type: string
+                                  mail.text.footer.impressum:
+                                    type: string
+                                  mail.doubleOptIn.subject:
+                                    type: string
+                                  mail.doubleOptIn.text.link:
+                                    type: string
+                                  mail.doubleOptInAlreadyGranted.subject:
+                                    type: string
+                                  title:
+                                    type: string
+                                  mail.doubleOptIn.text.devorstagingactive:
+                                    type: string
+                                  mail.text.salutation:
+                                    type: string
+                                  mail.doubleOptIn.text.below:
+                                    type: string
+                                  mail.doubleOptIn.text.above:
+                                    type: string
+                                  mail.text.footer.noreply:
+                                    type: string
+                              status:
+                                type: string
+                              doubleOptIn:
+                                type: number
+                        id:
+                          type: string
+                        version:
+                          type: number
+                        template:
+                          type: string
+                        optInType:
+                          type: string
+      parameters:
+        - name: evi-token
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: widget-version
+          in: query
+          required: false
+          schema:
+            type: string
+  /websearch/search/api/exploration/v2/productGroups:
+    options:
+      summary: OPTIONS productgroups
+      responses:
+        "200":
+          description: OK
+          content: {}
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+    get:
+      summary: GET productgroups
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productGroups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productGroupId:
+                          type: string
+                        name:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        productCount:
+                          type: number
+                        link:
+                          type: string
+                        url:
+                          type: object
+                          properties:
+                            path:
+                              type: string
+                            domain:
+                              type: string
+                        imageUrl:
+                          type: string
+                        currency:
+                          type: string
+                        rating:
+                          type: object
+                          properties:
+                            count:
+                              type: number
+                            average:
+                              type: number
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                        status:
+                          type: string
+                        products:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              productId:
+                                type: string
+                              name:
+                                type: string
+                              type:
+                                type: string
+                              status:
+                                type: string
+                              link:
+                                type: string
+                              url:
+                                type: object
+                                properties:
+                                  path:
+                                    type: string
+                                  domain:
+                                    type: string
+                              typeAttributes:
+                                type: object
+                                properties:
+                                  liveEntertainment:
+                                    type: object
+                                    properties:
+                                      startDate:
+                                        type: string
+                                      location:
+                                        type: object
+                                        properties:
+                                          name:
+                                            type: string
+                                          city:
+                                            type: string
+                                          geoLocation:
+                                            type: object
+                                            properties:
+                                              longitude:
+                                                type: number
+                                              latitude:
+                                                type: number
+                              rating:
+                                type: object
+                                properties:
+                                  count:
+                                    type: number
+                                  average:
+                                    type: number
+                              tags:
+                                type: array
+                                items:
+                                  type: string
+                              hasRecommendation:
+                                type: number
+                  facets:
+                    type: array
+                    items: {}
+                  searchTerm:
+                    type: string
+                  results:
+                    type: number
+                  totalResults:
+                    type: number
+                  page:
+                    type: number
+                  totalPages:
+                    type: number
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+  /websearch/search/api/exploration/v1/attractions:
+    options:
+      summary: OPTIONS attractions
+      responses:
+        "200":
+          description: OK
+          content: {}
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+    get:
+      summary: GET attractions
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attractions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        attractionId:
+                          type: string
+                        name:
+                          type: string
+                        link:
+                          type: string
+                        url:
+                          type: object
+                          properties:
+                            path:
+                              type: string
+                            domain:
+                              type: string
+                        imageUrl:
+                          type: string
+                        rating:
+                          type: object
+                          properties:
+                            count:
+                              type: number
+                            average:
+                              type: number
+                  searchTerm:
+                    type: string
+                  results:
+                    type: number
+                  totalResults:
+                    type: number
+                  page:
+                    type: number
+                  totalPages:
+                    type: number
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+  /websearch/search/api/exploration/v1/locations:
+    options:
+      summary: OPTIONS locations
+      responses:
+        "200":
+          description: OK
+          content: {}
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+    get:
+      summary: GET locations
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        locationId:
+                          type: string
+                        name:
+                          type: string
+                        city:
+                          type: string
+                        link:
+                          type: string
+                        url:
+                          type: object
+                          properties:
+                            path:
+                              type: string
+                            domain:
+                              type: string
+                        rating:
+                          type: object
+                          properties:
+                            count:
+                              type: number
+                            average:
+                              type: number
+                  searchTerm:
+                    type: string
+                  results:
+                    type: number
+                  totalResults:
+                    type: number
+                  page:
+                    type: number
+                  totalPages:
+                    type: number
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+  /websearch/search/api/exploration/v1/content:
+    options:
+      summary: OPTIONS content
+      responses:
+        "200":
+          description: OK
+          content: {}
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+    get:
+      summary: GET content
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        contentId:
+                          type: string
+                        title:
+                          type: string
+                        url:
+                          type: object
+                          properties:
+                            path:
+                              type: string
+                            domain:
+                              type: string
+                        type:
+                          type: string
+                  searchTerm:
+                    type: string
+                  results:
+                    type: number
+                  totalResults:
+                    type: number
+                  page:
+                    type: number
+                  totalPages:
+                    type: number
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+      parameters:
+        - name: webId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search_term
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: retail_partner
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: auto_suggest
+          in: query
+          required: false
+          schema:
+            type: string
+  /seatmap/api/SeatMapHandler:
+    options:
+      summary: OPTIONS seatmaphandler
+      responses:
+        "200":
+          description: OK
+          content: {}
+      parameters:
+        - name: smcVersion
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: version
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: evId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_holds
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_rowRules
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_systemId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_promotionId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_sessionId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: timestamp
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: expiryTime
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: chash
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: signature
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: fun
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: areaId
+          in: query
+          required: false
+          schema:
+            type: number
+    get:
+      summary: GET seatmaphandler
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                  timestamp:
+                    type: number
+                  tileSize:
+                    type: number
+                  serverName:
+                    type: string
+                  areaId:
+                    type: number
+                  zipFileName:
+                    type: string
+                  tilesGraphicFormat:
+                    type: string
+                  emptyTilePath:
+                    type: string
+                  rowRules:
+                    type: object
+                    properties:
+                      LEFT:
+                        type: array
+                        items: {}
+                      MIDDLE:
+                        type: array
+                        items: {}
+                      RIGHT:
+                        type: array
+                        items: {}
+                      GA:
+                        type: array
+                        items: {}
+                  type:
+                    type: number
+                  key:
+                    type: string
+                  individualSeats:
+                    type: number
+                  availabilityTimestamp:
+                    type: number
+                  seatSize:
+                    type: number
+                  dimension:
+                    type: array
+                    items:
+                      type: number
+                  bounds:
+                    type: array
+                    items:
+                      type: number
+                  maxZoom:
+                    type: number
+                  minZoom:
+                    type: number
+                  stage:
+                    type: array
+                    items:
+                      type: number
+                  allSeatsHave:
+                    type: number
+                  blocks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        blockId:
+                          type: string
+                        name:
+                          type: string
+                        blockDescription:
+                          type: string
+                        r:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              i:
+                                type: number
+                              g:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    i:
+                                      type: number
+                                    s:
+                                      type: array
+                                      items:
+                                        type: array
+                                        items:
+                                          type: number
+                        graphics:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              hull:
+                                type: number
+                              type:
+                                type: string
+                              points:
+                                type: array
+                                items:
+                                  type: array
+                                  items:
+                                    type: number
+                              pcBlock:
+                                type: array
+                                items:
+                                  type: array
+                                  items:
+                                    type: number
+                  pcs:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: string
+      parameters:
+        - name: smcVersion
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: version
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: evId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_holds
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_rowRules
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_systemId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_promotionId
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: a_sessionId
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: timestamp
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: expiryTime
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: chash
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: signature
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: fun
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: areaId
+          in: query
+          required: false
+          schema:
+            type: number
+x-path-templates:
+  # Remove the ignore: prefix to generate an endpoint with its URL
+  # Lines that are closer to the top take precedence, the matching is greedy
+  []
