@@ -9,7 +9,7 @@ in pkgs.mkShell {
     # Python 3.12 + packages
     (pkgs.python312.withPackages (python-pkgs: [
       python-pkgs.requests
-
+      python-pkgs.pytest
     ]))
   ];
 }
