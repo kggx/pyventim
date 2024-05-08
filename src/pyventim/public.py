@@ -15,9 +15,9 @@ class EventimExploration:
             "https://public-api.eventim.com/websearch/search/api/exploration"
         )
         
-    def _validate_search_term(self, search_term: str):
-        if len(search_term) == 0:
-            raise ValueError(f"search_term must have atleast one character...")
+    def _validate_search_term(self, search_term: str) -> None:
+        if len(search_term) < 2:
+            raise ValueError(f"search_term must have atleast two characters...")
             
 
     def attrations(self, search_term: str, page: int = 1) -> Dict:
