@@ -4,7 +4,7 @@ import pprint
 
 
 class EventimExploration:
-    def __init__(self, session: requests.Session = None):
+    def __init__(self, session: requests.Session = None) -> None:
         # If a valid session is not provided by the user create a new one.
         if not isinstance(session, requests.Session):
             self.session = requests.Session()
@@ -20,7 +20,7 @@ class EventimExploration:
             raise ValueError(f"search_term must have atleast two characters...")
             
 
-    def attrations(self, search_term: str, page: int = 1) -> Dict:
+    def attractions(self, search_term: str, page: int = 1) -> Dict:
         self._validate_search_term(search_term)
         
         r: requests.Response = self.session.get(
@@ -58,12 +58,3 @@ class EventimExploration:
         
         r.raise_for_status()
         return r.json()
-
-if __name__ == "__main__":
-    exp = EventimExploration()
-    search_term = "Disneys Der König der Löwen"
-
-    pprint.pprint(exp.attrations(search_term=search_term))
-    pprint.pprint(exp.content(search_term=search_term))
-    pprint.pprint(exp.locations(search_term=search_term))
-    pprint.pprint(exp.product_groups(search_term=search_term))
