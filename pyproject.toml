@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Kilian Braun", email="hello@kilianbraun.de" },
 ]
-description = "A small example package"
+description = "Python wrapper to fetch a reverse engineered Eventim API."
 readme = "README.md"
 requires-python = ">=3.12"
 classifiers = [
@@ -20,3 +20,17 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/kggx/pyventim"
 Issues = "https://github.com/kggx/pyventim/issues"
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [ "--import-mode=importlib" ]
+filterwarnings = "ignore:.*:DeprecationWarning"
+pythonpath = "src"
+testpaths = [
+    "tests"
+]
+
+[tool.pylint.MASTER]
+ignore = ['.git', "tests"]
+

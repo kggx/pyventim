@@ -1,2 +1,3 @@
 # pyventim
-Python module to fetch a reverse engineered Eventim API
+
+Python wrapper to fetch a reverse engineered Eventim API
