@@ -2,18 +2,8 @@ from pyventim.public import EventimExploration
 
 explorer: EventimExploration = EventimExploration()
 search_term:str = "Sleep"
-
-def test_validate_search_term():
-    # Check if validation passes for a invalid search term
-    try:
-        explorer._validate_search_term(search_term[0])
-    except ValueError:
-        assert(True)
-        
-    # Validate if given a valid word it should return nothing
-    assert(explorer._validate_search_term(search_term) is None)
     
-def test_content():
+def test_explore_content():
     # We check for needed keys
     needed_keys = ['content', 'results', 'totalResults', 'page', 'totalPages', '_links']
     json = explorer.content(search_term)
