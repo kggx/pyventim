@@ -6,6 +6,7 @@ in pkgs.mkShell {
     (pkgs.python312.withPackages (python-pkgs: [
       python-pkgs.requests
       python-pkgs.pytest
+      python-pkgs.black
     ]))
   ];
 }
