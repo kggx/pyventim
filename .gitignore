@@ -166,3 +166,9 @@ cython_debug/
 secrets/
 # Sample flows to generate Swagger API
 flows/
+frida-hooks/
+
+temp/
+
+debug.py
+debug.json
