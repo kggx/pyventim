@@ -24,9 +24,8 @@ Issues = "https://github.com/kggx/pyventim/issues"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = [
-    "--import-mode=importlib",
-]
+addopts = [ "--import-mode=importlib" ]
+filterwarnings = "ignore:.*:DeprecationWarning"
 pythonpath = "src"
 testpaths = [
     "tests"
