@@ -6,7 +6,7 @@ import requests
 
 
 class EventimExploration:
-    """Class that handles access to the public Eventim API."""
+    """Class that handles access to the public Eventim API for exploration."""
 
     def __init__(self, session: requests.Session = None) -> None:
         # If a valid session is not provided by the user create a new one.
@@ -427,3 +427,36 @@ class EventimExploration:
 
         r.raise_for_status()
         return r.json()
+
+
+class EventimCompenent:
+    """Class that handles access to the public Eventim API for components."""
+
+    def __init__(self, session: requests.Session = None) -> None:
+        # If a valid session is not provided by the user create a new one.
+        if not isinstance(session, requests.Session):
+            self.session = requests.Session()
+        else:
+            self.session = session
+
+        self.endpoint = "https://www.eventim.de/component/"
+
+    def get_artist_events(self):
+        # Parameters
+        # esid via public exploration API aka artist id
+        # Cityname = Cities to look for must be a sting name.
+
+        # filterused
+        # startdate
+        # enddate
+        # ptype=tickets (TODO: Look for types)
+        # fun=eventselectionbox
+        # doc=component
+        # cityname=Hamburg
+
+        raise NotImplementedError()
+
+    # König der Löwen:
+    # https://www.eventim.de/component/?affiliate=EVE&cityname=Hamburg&doc=component&esid=473431&filterused=true&fun=eventselectionbox&startdate=2024-05-12&tab=2&enddate=2024-05-12
+
+    # Sleep Token https://www.eventim.de/component/
