@@ -30,3 +30,7 @@ pythonpath = "src"
 testpaths = [
     "tests"
 ]
+
+[tool.pylint.MASTER]
+ignore = ['.git', "tests"]
+
