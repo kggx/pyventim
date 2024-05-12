@@ -179,14 +179,13 @@ class EventimExploration:
     def explore_attractions(
         self,
         search_term: str,
-        city_ids: List[int] = None,
         page: int = 1,
         sort: Literal[
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Dict:
         params: Dict[str, Any] = self.build_query_parameters(
-            search_term=search_term, city_ids=city_ids, page=page, sort=sort
+            search_term=search_term, page=page, sort=sort
         )
         r: requests.Response = self.session.get(
             f"{self.endpoint}/v1/attractions", params=params

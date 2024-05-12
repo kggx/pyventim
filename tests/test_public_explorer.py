@@ -167,8 +167,3 @@ def test_build_query_parameters():
 
     # Check if empty value is not in the param
     assert "in_stock" not in params.keys()
-
-
-############################
-### API validation tests ###
-############################
