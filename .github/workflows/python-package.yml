@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.12" ]
+        python-version: [ "3.10", "3.11", "3.12" ]
     
     steps:
     - uses: actions/checkout@v4
@@ -37,35 +37,36 @@ jobs:
     - name: Test with pytest
       run: |
         pytest -v
+  
   #########################
   # Build the documentation
   #########################
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build Markdown Files
-      # You may pin to the exact commit or the version.
-      # uses: reedjones/markdown-docs@9d6560077391af1d6e4cb251dba1e742c7f54b42
-      uses: reedjones/markdown-docs@new
+  # docs:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Build Markdown Files
+  #     # You may pin to the exact commit or the version.
+  #     # uses: reedjones/markdown-docs@9d6560077391af1d6e4cb251dba1e742c7f54b42
+  #     uses: reedjones/markdown-docs@new
 
-      with:
-        src_path: src
-        dst_path: docs 
+  #     with:
+  #       src_path: src
+  #       dst_path: docs 
      
-    - name: Setup mdBook
-      uses: peaceiris/actions-mdbook@v2
-      with:
-        mdbook-version: '0.4.10'
+  #   - name: Setup mdBook
+  #     uses: peaceiris/actions-mdbook@v2
+  #     with:
+  #       mdbook-version: '0.4.10'
 
-    - name: Build mdBook
-      run: mdbook build ./docs -d ./book
+  #   - name: Build mdBook
+  #     run: mdbook build ./docs -d ./book
     
-    - name: Deploy mdBook
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./book
+  #   - name: Deploy mdBook
+  #     uses: peaceiris/actions-gh-pages@v4
+  #     with:
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  #       publish_dir: ./book
           
       
           
