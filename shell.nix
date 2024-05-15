@@ -1,6 +1,7 @@
 let
-  pkgs = import <nixpkgs> {};
-in pkgs.mkShell {
+  pkgs = import <nixpkgs> { };
+in
+pkgs.mkShell {
   packages = [
     # Python 3.12 + packages
     (pkgs.python312.withPackages (python-pkgs: [
