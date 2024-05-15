@@ -84,9 +84,9 @@ class EventimExploration:
 
         if sort:
             if not isinstance(sort, str):
-                raise ValueError(f"sort must match: {", ".join(_allowed_values)}")
+                raise ValueError(f"sort must match: {', '.join(_allowed_values)}")
             if not sort in _allowed_values:
-                raise ValueError(f"sort must match: {", ".join(_allowed_values)}")
+                raise ValueError(f"sort must match: {', '.join(_allowed_values)}")
 
         return True
 
