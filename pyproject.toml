@@ -10,12 +10,17 @@ authors = [
 ]
 description = "Python wrapper to fetch a reverse engineered Eventim API."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dynamic = ["dependencies", "optional-dependencies"]
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
+
 
 [project.urls]
 Homepage = "https://github.com/kggx/pyventim"
