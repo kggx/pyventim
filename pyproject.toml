@@ -4,19 +4,26 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyventim"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
   { name="Kilian Braun", email="hello@kilianbraun.de" },
 ]
+maintainers = [
+  { name="Kilian Braun", email="hello@kilianbraun.de" },
+]
+
 description = "Python wrapper to fetch a reverse engineered Eventim API."
 readme = "README.md"
+dynamic = ["dependencies", "optional-dependencies"]
+
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dynamic = ["dependencies", "optional-dependencies"]
+
+
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
