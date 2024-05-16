@@ -8,6 +8,7 @@ pkgs.mkShell {
       python-pkgs.requests
       python-pkgs.pytest
       python-pkgs.black
+      python-pkgs.pdoc
     ]))
   ];
 }
