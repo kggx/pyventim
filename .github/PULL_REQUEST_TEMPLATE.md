@@ -13,6 +13,8 @@ Issue closed #(issue)
 
 ## Checklist
 
-- [ ] My changes are well-tested and commented
+- [ ] I have added pytest-Test for my changes.
+- [ ] My code changes are commented using docstrings
 - [ ] I reviewed my changes
 - [ ] My changes generate no new warnings
+- [ ] CI/CD test and documentation passes.

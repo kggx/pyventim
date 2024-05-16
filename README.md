@@ -1,5 +1,3 @@
-**This is currently a work in progress!**
-
 [![Testing](https://github.com/kggx/pyventim/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/testing.yml)
 [![Documentation](https://github.com/kggx/pyventim/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/docs.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
@@ -68,9 +66,9 @@ All contributions, bug reports, bug fixes, documentation improvements, enhanceme
 If youre looking to work on the pyventim codebase:
 
 1. Fork the repository.
-2. Make your changes and follow common code practices as well as Python PEP standards
-3. Open a merge request and follow the instructions.
-4. Be awesome!
+1. Make your changes and follow common code practices as well as Python PEP standards.
+1. Open a merge request and follow the instructions.
+1. Be awesome!
 
 For bug reports: Please head over to the [issues page](https://github.com/kggx/pyventim/issues).
 
