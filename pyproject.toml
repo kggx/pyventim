@@ -45,4 +45,3 @@ testpaths = [
 
 [tool.pylint.MASTER]
 ignore = ['.git', "tests"]
-
