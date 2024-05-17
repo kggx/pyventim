@@ -4,6 +4,7 @@ on:
 
   push:
     branches: ["main"]
+    tags: [ 'v[0-9]+.[0-9]+.[0-9]+' ]
 
   workflow_dispatch:
 
@@ -17,8 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-              with:
-                python-version: '3.12'
+        with:
+          python-version: '3.12'
 
       - name: Install module and requirements
         run: pip install -e .
@@ -26,9 +27,9 @@ jobs:
       - name: Build documentation HTML
         run: pdoc ./src/pyventim -o ./docs
 
-    - name: Deploy documentation
-      uses: actions/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
+      - name: Deploy documentation
+        uses: actions/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
 
