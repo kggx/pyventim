@@ -9,6 +9,9 @@ on:
 env:
   version_path: / # Path for docs. Default is latest
   
+permissions:
+  contents: write
+  
 jobs:
   #####################################
   # Build and publish the documentation
