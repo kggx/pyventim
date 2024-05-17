@@ -10,6 +10,7 @@ pkgs.mkShell {
       python-pkgs.black
       python-pkgs.pdoc
       python-pkgs.twine
+      python-pkgs.build
     ]))
   ];
 }
