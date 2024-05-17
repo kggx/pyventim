@@ -1,21 +1,31 @@
 name: Documentation
 on:
-  # TODO: Versioned docs on tags otherwise latest. 
-
   push:
     branches: ["main"]
-    tags: [ 'v[0-9]+.[0-9]+.[0-9]+' ]
 
-  workflow_dispatch:
-
-jobs:
+  release:
+    types:
+      - published
+env:
+  version_path: / # Path for docs. Default is latest
   
+jobs:
   #####################################
   # Build and publish the documentation
   #####################################
   docs:
     runs-on: ubuntu-latest
     steps:
+      # Set environment variables for the pathes
+      - name: Update version_path for releases
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: echo version_path=/version/$(echo $GITHUB_REF | cut -d / -f 3 | cut -d v -f 2- | cut -d . -f 1,2)/ >> $GITHUB_ENV
+
+      - name: Update version_path for non-main branches
+        if: ${{ github.ref_type == 'branch' && github.ref_name != 'main'}}
+        run: echo version_path=/preview/ >> $GITHUB_ENV
+
+      # Checkout repo and build documentation
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -27,9 +37,13 @@ jobs:
       - name: Build documentation HTML
         run: pdoc ./src/pyventim -o ./docs
 
-      - name: Deploy documentation
-        uses: actions/actions-gh-pages@v4
+      # Deploy the page to versioned pages
+      - name: Deploy to versioned pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/
+          TARGET_FOLDER: ${{ env.version_path }}
+          CLEAN: true 
+          CLEAN_EXCLUDE: '["version"]'
