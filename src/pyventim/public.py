@@ -1,4 +1,4 @@
-"""Module for the public Eventim-API wrapper."""
+"""Module for the public Eventim-API."""
 
 from typing import Dict, List, Literal, Any
 import datetime
