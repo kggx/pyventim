@@ -32,7 +32,7 @@ optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
 [project.urls]
 Homepage = "https://github.com/kggx/pyventim"
 Issues = "https://github.com/kggx/pyventim/issues"
-
+Documentation = "https://kggx.github.io/pyventim/pyventim.html"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

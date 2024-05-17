@@ -41,7 +41,7 @@ result = explorer.explore_attractions(
 )
 ```
 
-For a more detailed information please read the [documentation]().
+For a more detailed information please refer to the [documentation](https://kggx.github.io/pyventim/pyventim.html).
 
 ## License
 
@@ -53,7 +53,7 @@ Please follow our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## Finding help
 
-The code documentation can be found [here](). However if you encounter a unexpected behaviour: Feel free to open an [issue](https://github.com/kggx/pyventim/issues).
+The code documentation can be found [here](https://kggx.github.io/pyventim/pyventim.html). However if you encounter a unexpected behaviour: Feel free to open an [issue](https://github.com/kggx/pyventim/issues).
 
 ## Contributing
 
