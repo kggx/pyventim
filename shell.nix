@@ -9,6 +9,7 @@ pkgs.mkShell {
       python-pkgs.pytest
       python-pkgs.black
       python-pkgs.pdoc
+      python-pkgs.twine
     ]))
   ];
 }
