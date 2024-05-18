@@ -16,6 +16,16 @@ body:
             I have confirmed this bug exists on the latest version.
           required: true
 
+  # Problem statement
+  - type: textarea
+    id: problem
+    attributes:
+      label: Issue Description
+      description: >
+        Please provide a description of the issue shown in the reproducible example.
+    validations:
+      required: true
+
   # Reproducible example
   - type: textarea
     id: example
@@ -25,22 +35,11 @@ body:
         Please follow [this guide](https://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports) on how to
         provide a minimal, copy-pastable example.
       placeholder: >
-        import pandas as pd
+        from pyventim.public import EventimExploration
 
-        df = pd.DataFrame(range(5))
-
+        explorer: EventimExploration = EventimExploration()
         ...
       render: python
-    validations:
-      required: true
-
-  # Problem statement
-  - type: textarea
-    id: problem
-    attributes:
-      label: Issue Description
-      description: >
-        Please provide a description of the issue shown in the reproducible example.
     validations:
       required: true
 

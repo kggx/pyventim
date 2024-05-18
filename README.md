@@ -33,15 +33,11 @@ pip install pyventim
 # Import the module
 from pyventim.public import EventimExploration
 
-# We are testing against a long running german musical prone NOT to change
-search_for = "Stage Theater im Hafen Hamburg"
-sort_by = "DateAsc"
-
 # Returns attractions found by the explorer api given the search term.
 explorer: EventimExploration = EventimExploration()
 result = explorer.explore_attractions(
-    search_term=search_for,
-    sort=sort_by,
+    search_term="Stage Theater im Hafen Hamburg",
+    sort="DateAsc",
 )
 ```
 
