@@ -1,6 +1,7 @@
+# pylint: skip-file
 import pytest
 
-import pyventim.utils
+from pyventim import utils
 
 
 def test_parse_city_name_from_link():
