@@ -8,10 +8,10 @@ on:
       - published
 env:
   version_path: / # Path for docs. Default is latest
-  
+
 permissions:
   contents: write
-  
+
 jobs:
   #####################################
   # Build and publish the documentation
@@ -32,11 +32,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          
+          python-version: "3.12"
+
       - name: Install dev module and requirements
-        run: pip install -r requirements-dev.txt
-        
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
 
       - name: Build documentation HTML
         run: pdoc ./src/pyventim -o ./docs
@@ -49,5 +50,5 @@ jobs:
           branch: gh-pages
           folder: docs/
           target-folder: ${{ env.version_path }}
-          clean: true 
+          clean: true
           clean-exclude: '["version"]'

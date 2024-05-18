@@ -6,12 +6,13 @@ pkgs.mkShell {
     # Python 3.12 + packages
     (pkgs.python312.withPackages (python-pkgs: [
       python-pkgs.requests
-      python-pkgs.pytest
       python-pkgs.black
       python-pkgs.pdoc
       python-pkgs.twine
       python-pkgs.build
+      python-pkgs.pytest
       python-pkgs.pytest-cov
+      python-pkgs.flake8
     ]))
   ];
 }
