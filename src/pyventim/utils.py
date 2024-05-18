@@ -1,6 +1,4 @@
-import requests
 import pathlib
-from typing import Dict, Any
 
 
 def parse_city_name_from_link(city_url: str) -> str:
