@@ -1,7 +1,8 @@
 [![Testing](https://github.com/kggx/pyventim/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/testing.yml)
 [![Documentation](https://github.com/kggx/pyventim/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/docs.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
-[![PyPI Latest Release](https://img.shields.io/pypi/v/pyventim.svg)](https://pypi.org/project/pyventim/)
+[![Python](https://img.shields.io/pypi/pyversions/pyventim?label=Python)](https://pypi.org/project/pyventim/)
+[![PyPI Latest Release](https://img.shields.io/pypi/v/pyventim.svg?label=PyPI)](https://pypi.org/project/pyventim/)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/pyventim.svg?label=PyPI%20downloads)](https://pypi.org/project/pyventim/)
 [![Coverage](https://codecov.io/github/kggx/pyventim/coverage.svg?branch=main)](https://app.codecov.io/github/kggx/pyventim)
 
