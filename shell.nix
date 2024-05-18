@@ -13,6 +13,7 @@ pkgs.mkShell {
       python-pkgs.pytest
       python-pkgs.pytest-cov
       python-pkgs.flake8
+      python-pkgs.lxml
     ]))
   ];
 }
