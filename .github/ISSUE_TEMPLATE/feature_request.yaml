@@ -8,17 +8,16 @@ body:
     id: suggestion
     attributes:
       label: Suggestion
-      description: >
+      description: |
         A summary of what you are suggesting.
-
-      validations:
-        required: true
+    validations:
+      required: true
 
   - type: textarea
     id: proposal
     attributes:
       label: Describe the solution you'd like
-      description: >
+      description: |
         A with a clear and concise description of what you want to happen.
 
     validations:
@@ -28,12 +27,12 @@ body:
     id: alternatives
     attributes:
       label: Describe alternatives you've considered
-      description: >
+      description: |
         A clear and concise description of any alternative solutions or features you've considered.
 
   - type: textarea
     id: additional
     attributes:
       label: Additional context
-      description: >
+      description: |
         Describe alternatives you've considered with a clear and concise description of any alternative solutions or features you've considered.
