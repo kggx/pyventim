@@ -7,7 +7,6 @@ from typing import Dict, List, Any
 # Module to test
 from pyventim import Exploration
 
-Exploration
 # Setup
 SEARCH_TERM = "The"
 CATEGORIES = ["Musical & Show|Musical"]
