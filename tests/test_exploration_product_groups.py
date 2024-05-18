@@ -5,7 +5,7 @@ import datetime
 from typing import Dict, List, Any
 
 # Module to test
-from pyventim.public import EventimExploration
+from pyventim import Exploration
 
 # Setup
 # We are testing against a long running german musical prone NOT to change
@@ -16,7 +16,7 @@ SORT = "DateAsc"
 TODAY = datetime.date.today()
 NEXT_YEAR = TODAY + datetime.timedelta(days=365)
 
-EXPLORER: EventimExploration = EventimExploration()
+EXPLORER: Exploration = Exploration()
 RESULT = EXPLORER.explore_product_groups(
     search_term=SEARCH_TERM,
     categories=CATEGORIES,

@@ -1,12 +1,12 @@
-"""Module for the public Eventim-API."""
+"""Module for the explorer Endpoint Eventim-API."""
 
 from typing import Dict, List, Literal, Any
 import datetime
 import requests
 
 
-class EventimExploration:
-    """Class that handles access to the public Eventim API."""
+class Exploration:
+    """Class that handles access to the public Eventim API for exploration."""
 
     def __init__(self, session: requests.Session = None) -> None:
         # If a valid session is not provided by the user create a new one.
