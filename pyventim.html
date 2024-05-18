@@ -101,20 +101,16 @@ pyventim    </h1>
 <pre><span></span><code><span class="c1"># Import the module</span>
 <span class="kn">from</span> <span class="nn"><a href="pyventim/public.html">pyventim.public</a></span> <span class="kn">import</span> <span class="n">EventimExploration</span>
 
-<span class="c1"># We are testing against a long running german musical prone NOT to change</span>
-<span class="n">search_for</span> <span class="o">=</span> <span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span>
-<span class="n">sort_by</span> <span class="o">=</span> <span class="s2">&quot;DateAsc&quot;</span>
-
 <span class="c1"># Returns attractions found by the explorer api given the search term.</span>
 <span class="n">explorer</span><span class="p">:</span> <span class="n">EventimExploration</span> <span class="o">=</span> <span class="n">EventimExploration</span><span class="p">()</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">explorer</span><span class="o">.</span><span class="n">explore_attractions</span><span class="p">(</span>
-    <span class="n">search_term</span><span class="o">=</span><span class="n">search_for</span><span class="p">,</span>
-    <span class="n">sort</span><span class="o">=</span><span class="n">sort_by</span><span class="p">,</span>
+    <span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">,</span>
+    <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;DateAsc&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre>
 </div>
 
-<p>For a more detailed information please read the <a href="">documentation</a>.</p>
+<p>For a more detailed information please refer to the <a href="https://kggx.github.io/pyventim/pyventim.html">documentation</a>.</p>
 
 <h2 id="license">License</h2>
 
@@ -126,7 +122,7 @@ pyventim    </h1>
 
 <h2 id="finding-help">Finding help</h2>
 
-<p>The code documentation can be found <a href="">here</a>. However if you encounter a unexpected behaviour: Feel free to open an <a href="https://github.com/kggx/pyventim/issues">issue</a>.</p>
+<p>The code documentation can be found <a href="https://kggx.github.io/pyventim/pyventim.html">here</a>. However if you encounter a unexpected behaviour: Feel free to open an <a href="https://github.com/kggx/pyventim/issues">issue</a>.</p>
 
 <h2 id="contributing">Contributing</h2>
 
