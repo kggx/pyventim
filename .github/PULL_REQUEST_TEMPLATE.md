@@ -1,6 +1,6 @@
 ## Description
 
-Issue closed #(issue)
+Issue closed #{issue}. Short short description.
 
 ## Change Type
 
