@@ -1,8 +1,13 @@
 [![Testing](https://github.com/kggx/pyventim/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/testing.yml)
 [![Documentation](https://github.com/kggx/pyventim/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/docs.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![PyPI Latest Release](https://img.shields.io/pypi/v/pyventim.svg)](https://pypi.org/project/pyventim/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/pyventim.svg?label=PyPI%20downloads)](https://pypi.org/project/pyventim/)
 
 ---
+
+> [!NOTE]
+> Consider the whole project as unstable until version 1.0.0 is reached.
 
 # pyventim
 
@@ -10,7 +15,10 @@ A Python module to fetch usable data with a reverse engineered Eventim API.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+The [Eventim](https://www.eventim.com/) API has some public endpoints but also hidden data in the HTML responses. The project goal is to provide away to fetch this data with simple to use python objecs.
+
+> [!IMPORTANT]
+> Be aware that the APIs of Eventim can change without notice and therefore break the module.
 
 ## Getting Started
 
