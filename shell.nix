@@ -11,6 +11,7 @@ pkgs.mkShell {
       python-pkgs.pdoc
       python-pkgs.twine
       python-pkgs.build
+      python-pkgs.pytest-cov
     ]))
   ];
 }
