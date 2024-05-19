@@ -29,7 +29,7 @@ class utils:
         Returns:
             int: The city id from the url.
         """
-        return pathlib.Path(city_url).parts[3].split("-")[1]
+        return int(pathlib.Path(city_url).parts[3].split("-")[1])
 
 
 # def get_attraction_music_events_from_html(html: str):
