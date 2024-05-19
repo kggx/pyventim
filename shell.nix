@@ -20,6 +20,13 @@ let
       virtualenvwrapper
       wheel
       black
+      pylint
+      flake8
+      pytest-cov
+      pytest
+      pdoc
+      twine
+      build
     ]
   );
 
