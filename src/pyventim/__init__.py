@@ -4,5 +4,4 @@
 .. include:: EXAMPLES.md
 """
 
-from .exploration import Exploration
-from .utils import utils
+from .eventim import Eventim

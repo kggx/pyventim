@@ -1,0 +1,2 @@
+class ExplorationException(Exception):
+    pass

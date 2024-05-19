@@ -1,3 +1,68 @@
+from typing import Dict, Any
+from json import JSONDecodeError
+import requests
+
+from .exceptions import ExplorationException
+from .models import RestResult
+
+
+class ExplorationAdapter:
+    """Adapter for the exploration endpoint"""
+
+    def __init__(
+        self,
+        session: requests.Session | None = None,
+        # logger: logging.Logger | None = None,
+    ) -> None:
+        self.session: requests.Session = session or requests.Session()
+        self.session.headers.update(
+            {
+                "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0"  # pylint: disable=C0301
+            }
+        )
+
+        self.hostname = (
+            "https://public-api.eventim.com/websearch/search/api/exploration"
+        )
+
+    def _do(
+        self,
+        method: str,
+        endpoint: str,
+        params: Dict | None = None,
+        json_data: Dict | None = None,
+    ) -> RestResult:
+        try:
+            response = self.session.request(
+                method=method,
+                url=f"{self.hostname}/{endpoint}",
+                params=params,
+                json=json_data,
+            )
+        except requests.exceptions.RequestException as e:
+            raise ExplorationException("Request failed") from e
+
+        try:
+            data_out: Dict[str, Any] = response.json()
+        except (ValueError, JSONDecodeError) as e:
+            raise ExplorationException("Bad JSON in response") from e
+
+        if 299 >= response.status_code >= 200:
+            return RestResult(
+                status_code=response.status_code,
+                message=response.reason,
+                json_data=data_out,
+            )
+
+        raise ExplorationException(f"{response.status_code}: {response.reason}")
+
+    def get(self, endpoint: str, params: Dict | None = None) -> RestResult:
+        return self._do(method="GET", endpoint=endpoint, params=params)
+
+
+# import requests
+
+
 # class EventimCompenent:
 #     """Class that handles access to the public Eventim API for components."""
 
@@ -15,6 +80,7 @@
 #             }
 #         )
 #         self.endpoint = "https://www.eventim.de/component/"
+
 
 #     def get_attraction_events(self, attraction_id: int) -> dict:
 #         r = self.session.get(
