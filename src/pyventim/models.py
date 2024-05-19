@@ -1,10 +1,13 @@
+from datetime import date, time
 from typing import Dict, Any, Union, Optional, List, Literal
 from typing_extensions import Self
+
 from pydantic import BaseModel, model_validator
-from datetime import date, time
 
 
 class RestResult(BaseModel):
+    """Model for a REST result."""
+
     status_code: int
     message: str
     json_data: Dict[str, Any]

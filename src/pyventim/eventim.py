@@ -1,5 +1,6 @@
-from typing import Literal, Iterator, Dict, List
 from datetime import date, time
+from typing import Literal, Iterator, Dict, List
+
 from .adapters import ExplorationAdapter
 from .models import ExplorationParameters
 
