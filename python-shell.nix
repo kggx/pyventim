@@ -1,4 +1,3 @@
-# python-shell.nix
 {
   pkgs ? import <nixpkgs> { },
   extraBuildInputs ? [ ],
