@@ -171,6 +171,8 @@ frida-hooks/
 temp/
 
 debug.py
+debug*.py
 debug.json
+
 
 docs/
