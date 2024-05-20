@@ -2,7 +2,7 @@
 """
 
 from datetime import date, time
-from typing import Dict, Any, Optional, List, Literal, Required
+from typing import Dict, Any, Optional, List, Literal
 from typing_extensions import Self
 
 from pydantic import BaseModel, model_validator, field_serializer
@@ -33,16 +33,24 @@ class ComponentParameters(BaseModel):
     fun: Literal["eventselectionbox"] = "eventselectionbox"
 
     esid: int
-    pnum: Optional[int] = 1  # This is optional but recommended to start at 1
+    pnum: int = 1  # This is optional but recommended to start at 1
 
     startdate: Optional[date] = None
     enddate: Optional[date] = None
-    ptype: Optional[Literal["tickets", "vip_packages"]] = None
+    ptype: Optional[Literal["tickets", "vip_packages", "extras"]] = None
     cityname: Optional[str] = None
     filterused: Optional[bool] = True  # Has litterly no effect but might change.
 
     @model_validator(mode="after")
     def check_required(self) -> Self:
+        """Validates the model on required parameters
+
+        Raises:
+            ValueError: Raised if not one required parameter is set.
+
+        Returns:
+            Self: The pydantic model.
+        """
         if self.doc != "component" or self.fun != "eventselectionbox":
             raise ValueError(
                 "doc parameter != component and fun parameter != component"
@@ -106,7 +114,7 @@ class ExplorationParameters(BaseModel):
         """The eventim API expects time_from & time_to in the format of "HH:MM"
 
         Returns:
-            str: Tiem in HH:MM format
+            str: Time in HH:MM format
         """
         return value.strftime("%H:%M")
 

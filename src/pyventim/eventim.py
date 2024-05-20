@@ -3,8 +3,13 @@
 from datetime import date, time
 from typing import Literal, Iterator, Dict, List
 
-from .models import ExplorationParameters
-from .adapters import ExplorationAdapter  # pylint: disable=E0401
+from .models import ExplorationParameters, ComponentParameters
+from .adapters import ExplorationAdapter, ComponentAdapter  # pylint: disable=E0401
+from .utils import (
+    parse_has_next_page_from_component_html,
+    parse_list_from_component_html,
+    parse_calendar_from_component_html,
+)
 
 
 class Eventim:
@@ -14,6 +19,7 @@ class Eventim:
         self,
     ) -> None:
         self.explorer_api: ExplorationAdapter = ExplorationAdapter()
+        self.component_adapter: ComponentAdapter = ComponentAdapter()
 
     def explore_attractions(
         self,
@@ -151,3 +157,91 @@ class Eventim:
                 break
 
             params.page = params.page + 1
+
+    def get_attraction_events(
+        self,
+        attraction_id: int,
+        date_from: date | None = None,
+        date_to: date | None = None,
+        ticket_type: Literal["tickets", "vip_packages", "extras"] | None = None,
+        city_name: str | None = None,
+    ) -> Iterator[Dict]:
+        # pylint: disable=line-too-long
+        """This returns the attraction events. The attraction events follow this schema: https://schema.org/MusicEvent.
+        The API only returns a maximum of 90 events. This should be plenty but some event types like continous musicals have more than 90 events
+        **If you try to fetching many events (>90) at a time then get_attraction_events_from_calendar() should be used.**
+
+        Args:
+            attraction_id (int): Attraction ID to query
+            date_from (date | None, optional): Event date later than. Defaults to None.
+            date_to (date | None, optional): Event date earlier than. Defaults to None.
+            ticket_type (Literal[&quot;tickets&quot;, &quot;vip_packages&quot;, &quot;extras&quot;] | None, optional): Include only events with tickets avialible in type. Defaults to None.
+            city_name (str | None, optional): Include only events in city. Defaults to None.
+
+        Yields:
+            Iterator[Dict]: The events in the MusicEvent schema.
+        """
+
+        params = ComponentParameters(
+            esid=attraction_id,
+            startdate=date_from,
+            enddate=date_to,
+            ptype=ticket_type,
+            cityname=city_name,
+        )
+
+        while params.pnum <= 10:
+            comp_result = self.component_adapter.get(
+                params=params.model_dump(exclude_none=True)
+            )
+            attraction_events = parse_list_from_component_html(comp_result.html_data)
+
+            for attraction_event in attraction_events:
+                yield attraction_event
+
+            if parse_has_next_page_from_component_html(comp_result.html_data) is False:
+                break
+
+            params.pnum = params.pnum + 1
+
+    def get_attraction_events_from_calendar(
+        self,
+        attraction_id: int,
+        date_from: date | None = None,
+        date_to: date | None = None,
+        ticket_type: Literal["tickets", "vip_packages", "extras"] | None = None,
+        city_name: str | None = None,
+    ) -> Iterator[Dict]:
+        # pylint: disable=line-too-long
+        """This returns the attraction events. The attraction events follow a custom calendar schema.
+
+        Args:
+            attraction_id (int): Attraction ID to query
+            date_from (date | None, optional): Event date later than. Defaults to None.
+            date_to (date | None, optional): Event date earlier than. Defaults to None.
+            ticket_type (Literal[&quot;tickets&quot;, &quot;vip_packages&quot;, &quot;extras&quot;] | None, optional): Include only events with tickets avialible in type. Defaults to None.
+            city_name (str | None, optional): Include only events in city. Defaults to None.
+
+        Yields:
+            Iterator[Dict]: The events in a calendar schema.
+        """
+        params = ComponentParameters(
+            esid=attraction_id,
+            startdate=date_from,
+            enddate=date_to,
+            ptype=ticket_type,
+            cityname=city_name,
+        )
+
+        comp_result = self.component_adapter.get(
+            params=params.model_dump(exclude_none=True)
+        )
+
+        calendar_configuration = parse_calendar_from_component_html(
+            comp_result.html_data
+        )
+
+        calendar_content = calendar_configuration["calendar_content"]
+
+        for attraction_event in calendar_content["result"]:
+            yield attraction_event

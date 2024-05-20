@@ -1,8 +1,11 @@
+"""Common utility functions for pyventim"""
+
+import json
 import pathlib
 from typing import Dict, List, Any
 
-import lxml, lxml.html
-import json
+import lxml
+import lxml.html
 
 
 def parse_city_name_from_link(city_url: str) -> str:
@@ -31,14 +34,14 @@ def parse_city_id_from_link(city_url: str) -> int:
     return int(pathlib.Path(city_url).parts[3].split("-")[1])
 
 
-def parse_json_from_component_html(html: str) -> List[Dict[str, Any]]:
+def parse_list_from_component_html(html: str) -> List[Dict[str, Any]]:
     """This function returns all json entries on a component html string
 
     Args:
         html (str): HTML to look for json data
 
     Returns:
-        Dict: Returns a list of dictionaries containing the json
+        Dict: Returns a list of dictionaries containing the data
     """
     return [
         json.loads(x.text)
@@ -48,27 +51,38 @@ def parse_json_from_component_html(html: str) -> List[Dict[str, Any]]:
     ]
 
 
-def parse_has_next_page_from_component_html(html: str) -> bool:
-    """This function returns if the returned page has a next page.
+def parse_calendar_from_component_html(html: str) -> Dict[str, Any]:
+    """This function returns the calendar widget data entries of a component html string
 
     Args:
-        html (str): HTML code to check
+        html (str): HTML to look for json data
 
     Returns:
-        bool: Returns True if the page has a proceeding page.
+        Dict: Returns a dict with the calendar widget data
     """
-    return (
-        len(lxml.html.fromstring(html).findall(".//button[@data-qa='next-page']")) == 0
+    return json.loads(
+        lxml.html.fromstring(html)
+        .xpath(
+            ".//script[@type='application/configuration' and contains(text(),'calendar_content')]"
+        )[0]
+        .text
     )
 
 
-# <button
-# class="btn btn-lg btn-square theme-interaction-border theme-interaction-bg standard-gray-border disabled"
-# title="N&auml;chste Seite"
-# data-qa="next-page"
-# disabled
-# >
-# <i class="icon icon-arrow-right">
-# <span class="sr-only">Nächste Seite</span>
-# </i>
-# </button>
+def parse_has_next_page_from_component_html(html: str) -> bool:
+    """Returns if the page has a proceeding page
+
+    Args:
+        html (str): HTML to parse
+
+    Returns:
+        bool: Returns true if followed by another page.
+    """
+    matches = lxml.html.fromstring(html).xpath(
+        ".//li[contains(@class,'pagination-pages-small') and contains(text(),' von ')]"
+    )
+    for match in matches:
+        current, total = match.text.split(" von ")
+        return current < total
+
+    return False
