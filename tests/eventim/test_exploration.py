@@ -23,15 +23,17 @@ def test_attractions_success():
     # Item check
     first_item = next(result)
     assert isinstance(first_item, Dict)
-    assert list(first_item.keys()) == [
-        "attractionId",
-        "name",
-        "description",
-        "link",
-        "url",
-        "imageUrl",
-        "rating",
-    ]
+    assert sorted(list(first_item.keys())) == sorted(
+        [
+            "attractionId",
+            "name",
+            "description",
+            "link",
+            "url",
+            "imageUrl",
+            "rating",
+        ]
+    )
 
     # Value check on attraction id
     assert first_item["attractionId"] == "450962"
@@ -56,16 +58,18 @@ def test_locations_success():
     first_item = next(result)
 
     assert isinstance(first_item, Dict)
-    assert list(first_item.keys()) == [
-        "locationId",
-        "name",
-        "description",
-        "city",
-        "link",
-        "url",
-        "imageUrl",
-        "rating",
-    ]
+    assert sorted(list(first_item.keys())) == sorted(
+        [
+            "locationId",
+            "name",
+            "description",
+            "city",
+            "link",
+            "url",
+            "imageUrl",
+            "rating",
+        ]
+    )
 
     # Value check on location id
     assert first_item["locationId"] == "vg_3880"
@@ -89,23 +93,25 @@ def test_product_group_success():
     # Item check
     first_item = next(result)
     assert isinstance(first_item, Dict)
-    assert list(first_item.keys()) == [
-        "productGroupId",
-        "name",
-        "description",
-        "startDate",
-        "endDate",
-        "productCount",
-        "link",
-        "url",
-        "imageUrl",
-        "currency",
-        "rating",
-        "categories",
-        "tags",
-        "status",
-        "products",
-    ]
+    assert sorted(list(first_item.keys())) == sorted(
+        [
+            "productGroupId",
+            "name",
+            "description",
+            "startDate",
+            "endDate",
+            "productCount",
+            "link",
+            "url",
+            "imageUrl",
+            "currency",
+            "rating",
+            "categories",
+            "tags",
+            "status",
+            "products",
+        ]
+    )
 
     # Value check on product_group id
     assert first_item["productGroupId"] == "473431"
