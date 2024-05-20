@@ -1,8 +1,9 @@
+"""Custom adapters to handle traffic from Eventim"""
+
 from json import JSONDecodeError
 from typing import Dict, Any
 
 import requests
-
 
 from .exceptions import ExplorationException
 from .models import RestResult
@@ -14,7 +15,6 @@ class ExplorationAdapter:
     def __init__(
         self,
         session: requests.Session | None = None,
-        # logger: logging.Logger | None = None,
     ) -> None:
         self.session: requests.Session = session or requests.Session()
         self.session.headers.update(
@@ -59,10 +59,16 @@ class ExplorationAdapter:
         raise ExplorationException(f"{response.status_code}: {response.reason}")
 
     def get(self, endpoint: str, params: Dict | None = None) -> RestResult:
+        """Get a choosen endpoint on the public-api.eventim.com.
+
+        Args:
+            endpoint (str): Endpoint to query.
+            params (Dict | None, optional): Parameters to query. Defaults to None.
+
+        Returns:
+            RestResult: RestResult with status_code, message and json_data
+        """
         return self._do(method="GET", endpoint=endpoint, params=params)
-
-
-# import requests
 
 
 # class EventimCompenent:

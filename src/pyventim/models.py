@@ -1,8 +1,11 @@
+"""Pydantic models for the module.
+"""
+
 from datetime import date, time
 from typing import Dict, Any, Optional, List, Literal
 from typing_extensions import Self
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, model_validator, field_serializer
 
 
 class RestResult(BaseModel):
@@ -33,6 +36,14 @@ class ExplorationParameters(BaseModel):
 
     @model_validator(mode="after")
     def check_required(self) -> Self:
+        """Validates the model on required parameters
+
+        Raises:
+            ValueError: Raised if not one required parameter is set.
+
+        Returns:
+            Self: The pydantic model.
+        """
         if not self.search_term and not self.categories and not self.city_ids:
             raise ValueError("Must have either search_term, categories or city_ids")
 
@@ -40,11 +51,29 @@ class ExplorationParameters(BaseModel):
 
     @model_validator(mode="after")
     def check_search_term(self) -> Self:
+        """Validates on a valid search term.
+
+        Raises:
+            ValueError: Raised if not a valid search term
+
+        Returns:
+            Self: The pydantic model.
+        """
         if self.search_term:
             if len(self.search_term) < 3:
                 raise ValueError("search_term must be atleast 3 characters long")
 
         return self
+
+    # custom time values
+    @field_serializer("time_from", "time_to")
+    def serialize_dt(self, value: time, _info) -> str:
+        """The eventim API expects time_from & time_to in the format of "HH:MM"
+
+        Returns:
+            str: Tiem in HH:MM format
+        """
+        return value.strftime("%H:%M")
 
 
 # class Attraction(BaseModel):

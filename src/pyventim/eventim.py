@@ -1,8 +1,10 @@
+"""Highlevel wrapper functions for the Eventim API."""
+
 from datetime import date, time
 from typing import Literal, Iterator, Dict, List
 
-from .adapters import ExplorationAdapter
 from .models import ExplorationParameters
+from .adapters import ExplorationAdapter  # pylint: disable=E0401
 
 
 class Eventim:
@@ -98,8 +100,6 @@ class Eventim:
         )
 
         while True:
-            print(params.model_dump(exclude_none=True))
-
             rest_result = self.explorer_api.get(
                 endpoint="v2/productGroups", params=params.model_dump(exclude_none=True)
             )

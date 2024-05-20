@@ -1,8 +1,10 @@
 """
 .. include:: ../../README.md
-<hr>
-.. include:: EXAMPLES.md
+.. include:: ../EXAMPLES.md
 """
 
 from .eventim import Eventim
-from .utils import *
+
+from . import models
+from . import exceptions
+from . import utils

@@ -2,7 +2,7 @@
 import pytest
 
 # Module to test
-from pyventim import utils
+from pyventim.utils import *
 
 
 def test_parse_city_name_from_link():
