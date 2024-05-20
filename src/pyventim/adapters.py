@@ -5,11 +5,11 @@ from typing import Dict, Any
 
 import requests
 
-from .exceptions import ExplorationException, ComponentException
+from .exceptions import RestException, HtmlException
 from .models import RestResult, HtmlResult
 
 
-class ExplorationAdapter:
+class RestAdapter:
     """Adapter for the exploration endpoint"""
 
     def __init__(self, session: requests.Session | None = None) -> None:
@@ -39,12 +39,12 @@ class ExplorationAdapter:
                 json=json_data,
             )
         except requests.exceptions.RequestException as e:
-            raise ExplorationException("Request failed") from e
+            raise RestException("Request failed") from e
 
         try:
             data_out: Dict[str, Any] = response.json()
         except (ValueError, JSONDecodeError) as e:
-            raise ExplorationException("Bad JSON in response") from e
+            raise RestException("Bad JSON in response") from e
 
         if 299 >= response.status_code >= 200:
             return RestResult(
@@ -53,7 +53,7 @@ class ExplorationAdapter:
                 json_data=data_out,
             )
 
-        raise ExplorationException(f"{response.status_code}: {response.reason}")
+        raise RestException(f"{response.status_code}: {response.reason}")
 
     def get(self, endpoint: str, params: Dict | None = None) -> RestResult:
         """Get a choosen endpoint on the public-api.eventim.com.
@@ -68,7 +68,7 @@ class ExplorationAdapter:
         return self._do(method="GET", endpoint=endpoint, params=params)
 
 
-class ComponentAdapter:
+class HtmlAdapter:
     def __init__(self, session: requests.Session | None = None) -> None:
         self.session: requests.Session = session or requests.Session()
         self.session.headers.update(
@@ -77,28 +77,29 @@ class ComponentAdapter:
             }
         )
 
-        self.hostname = "https://www.eventim.de/component"
+        self.hostname = "https://www.eventim.de/"
 
     def _do(
         self,
         method: str,
+        endpoint: str,
         params: Dict | None = None,
         json_data: Dict | None = None,
     ) -> HtmlResult:
         try:
             response = self.session.request(
                 method=method,
-                url=f"{self.hostname}",
+                url=f"{self.hostname}/{endpoint}",
                 params=params,
                 json=json_data,
             )
         except requests.exceptions.RequestException as e:
-            raise ComponentException("Request failed") from e
+            raise HtmlException("Request failed") from e
 
         try:
             data_out: str = response.content.decode("utf-8")
         except (ValueError, JSONDecodeError) as e:
-            raise ComponentException("Bad HTML in response") from e
+            raise HtmlException("Bad HTML in response") from e
 
         if 299 >= response.status_code >= 200:
             return HtmlResult(
@@ -107,9 +108,9 @@ class ComponentAdapter:
                 html_data=data_out,
             )
 
-        raise ComponentException(f"{response.status_code}: {response.reason}")
+        raise HtmlException(f"{response.status_code}: {response.reason}")
 
-    def get(self, params: Dict | None = None) -> HtmlResult:
+    def get(self, endpoint: str, params: Dict | None = None) -> HtmlResult:
         """Get a choosen endpoint on the public-api.eventim.com.
 
         Args:
@@ -119,7 +120,7 @@ class ComponentAdapter:
         Returns:
             RestResult: RestResult with status_code, message and json_data
         """
-        return self._do(method="GET", params=params)
+        return self._do(method="GET", endpoint=endpoint, params=params)
 
 
 # class EventimCompenent:

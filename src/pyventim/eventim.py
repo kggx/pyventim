@@ -4,7 +4,7 @@ from datetime import date, time
 from typing import Literal, Iterator, Dict, List
 
 from .models import ExplorationParameters, ComponentParameters
-from .adapters import ExplorationAdapter, ComponentAdapter  # pylint: disable=E0401
+from .adapters import RestAdapter, HtmlAdapter  # pylint: disable=E0401
 from .utils import (
     parse_has_next_page_from_component_html,
     parse_list_from_component_html,
@@ -18,8 +18,8 @@ class Eventim:
     def __init__(
         self,
     ) -> None:
-        self.explorer_api: ExplorationAdapter = ExplorationAdapter()
-        self.component_adapter: ComponentAdapter = ComponentAdapter()
+        self.rest_adapter: RestAdapter = RestAdapter()
+        self.html_adapter: HtmlAdapter = HtmlAdapter()
 
     def explore_attractions(
         self,
@@ -46,7 +46,7 @@ class Eventim:
 
         while True:
 
-            rest_result = self.explorer_api.get(
+            rest_result = self.rest_adapter.get(
                 endpoint="v1/attractions", params=params.model_dump(exclude_none=True)
             )
 
@@ -85,7 +85,7 @@ class Eventim:
         )
 
         while True:
-            rest_result = self.explorer_api.get(
+            rest_result = self.rest_adapter.get(
                 endpoint="v1/locations", params=params.model_dump(exclude_none=True)
             )
 
@@ -143,7 +143,7 @@ class Eventim:
         )
 
         while True:
-            rest_result = self.explorer_api.get(
+            rest_result = self.rest_adapter.get(
                 endpoint="v2/productGroups", params=params.model_dump(exclude_none=True)
             )
 
@@ -191,8 +191,8 @@ class Eventim:
         )
 
         while params.pnum <= 10:
-            comp_result = self.component_adapter.get(
-                params=params.model_dump(exclude_none=True)
+            comp_result = self.html_adapter.get(
+                endpoint="component", params=params.model_dump(exclude_none=True)
             )
             attraction_events = parse_list_from_component_html(comp_result.html_data)
 
@@ -233,8 +233,8 @@ class Eventim:
             cityname=city_name,
         )
 
-        comp_result = self.component_adapter.get(
-            params=params.model_dump(exclude_none=True)
+        comp_result = self.html_adapter.get(
+            endpoint="component", params=params.model_dump(exclude_none=True)
         )
 
         calendar_configuration = parse_calendar_from_component_html(
