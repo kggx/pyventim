@@ -2,4 +2,8 @@
 
 
 class ExplorationException(Exception):
-    """Raised if the Exploration API returns an error."""
+    """Raised if the Exploration Adatper returns an error."""
+
+
+class ComponentException(Exception):
+    """Raised if the Component Adatper returns an error."""

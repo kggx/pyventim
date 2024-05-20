@@ -2,7 +2,7 @@
 """
 
 from datetime import date, time
-from typing import Dict, Any, Optional, List, Literal
+from typing import Dict, Any, Optional, List, Literal, Required
 from typing_extensions import Self
 
 from pydantic import BaseModel, model_validator, field_serializer
@@ -16,9 +16,44 @@ class RestResult(BaseModel):
     json_data: Dict[str, Any]
 
 
+class HtmlResult(BaseModel):
+    """Model for a REST result."""
+
+    status_code: int
+    message: str
+    html_data: str
+
+
+class ComponentParameters(BaseModel):
+    """BaseModel for Eventim Component Endpoint Parameters.
+    Validates rulesets that are required by the endpoint.
+    """
+
+    doc: Literal["component"] = "component"
+    fun: Literal["eventselectionbox"] = "eventselectionbox"
+
+    esid: int
+    pnum: Optional[int] = 1  # This is optional but recommended to start at 1
+
+    startdate: Optional[date] = None
+    enddate: Optional[date] = None
+    ptype: Optional[Literal["tickets", "vip_packages"]] = None
+    cityname: Optional[str] = None
+    filterused: Optional[bool] = True  # Has litterly no effect but might change.
+
+    @model_validator(mode="after")
+    def check_required(self) -> Self:
+        if self.doc != "component" or self.fun != "eventselectionbox":
+            raise ValueError(
+                "doc parameter != component and fun parameter != component"
+            )
+
+        return self
+
+
 class ExplorationParameters(BaseModel):
     """BaseModel for Eventim Exploration Endpoint Parameters.
-    Validates rulesets that are required by the string.
+    Validates rulesets that are required by the endpoint.
     """
 
     search_term: Optional[str] = None

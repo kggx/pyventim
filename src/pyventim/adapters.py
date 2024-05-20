@@ -5,17 +5,14 @@ from typing import Dict, Any
 
 import requests
 
-from .exceptions import ExplorationException
-from .models import RestResult
+from .exceptions import ExplorationException, ComponentException
+from .models import RestResult, HtmlResult
 
 
 class ExplorationAdapter:
     """Adapter for the exploration endpoint"""
 
-    def __init__(
-        self,
-        session: requests.Session | None = None,
-    ) -> None:
+    def __init__(self, session: requests.Session | None = None) -> None:
         self.session: requests.Session = session or requests.Session()
         self.session.headers.update(
             {
@@ -69,6 +66,60 @@ class ExplorationAdapter:
             RestResult: RestResult with status_code, message and json_data
         """
         return self._do(method="GET", endpoint=endpoint, params=params)
+
+
+class ComponentAdapter:
+    def __init__(self, session: requests.Session | None = None) -> None:
+        self.session: requests.Session = session or requests.Session()
+        self.session.headers.update(
+            {
+                "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0"  # pylint: disable=C0301
+            }
+        )
+
+        self.hostname = "https://www.eventim.de/component"
+
+    def _do(
+        self,
+        method: str,
+        params: Dict | None = None,
+        json_data: Dict | None = None,
+    ) -> HtmlResult:
+        try:
+            response = self.session.request(
+                method=method,
+                url=f"{self.hostname}",
+                params=params,
+                json=json_data,
+            )
+        except requests.exceptions.RequestException as e:
+            raise ComponentException("Request failed") from e
+
+        try:
+            data_out: str = response.content.decode("utf-8")
+        except (ValueError, JSONDecodeError) as e:
+            raise ComponentException("Bad HTML in response") from e
+
+        if 299 >= response.status_code >= 200:
+            return HtmlResult(
+                status_code=response.status_code,
+                message=response.reason,
+                html_data=data_out,
+            )
+
+        raise ComponentException(f"{response.status_code}: {response.reason}")
+
+    def get(self, params: Dict | None = None) -> HtmlResult:
+        """Get a choosen endpoint on the public-api.eventim.com.
+
+        Args:
+            endpoint (str): Endpoint to query.
+            params (Dict | None, optional): Parameters to query. Defaults to None.
+
+        Returns:
+            RestResult: RestResult with status_code, message and json_data
+        """
+        return self._do(method="GET", params=params)
 
 
 # class EventimCompenent:
