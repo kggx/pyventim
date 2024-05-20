@@ -20,23 +20,28 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
-        next_page: int = 1
+        params = ExplorationParameters(
+            search_term=search_term,
+            sort=sort,
+            page=1,
+        )
+
         while True:
+
             rest_result = self.explorer_api.get(
-                endpoint="v1/attractions",
-                params={"search_term": search_term, "page": next_page, "sort": sort},
+                endpoint="v1/attractions", params=params.model_dump(exclude_none=True)
             )
 
             for attraction in rest_result.json_data["attractions"]:
                 yield attraction
 
             if (
-                next_page >= rest_result.json_data["totalPages"]
+                params.page >= rest_result.json_data["totalPages"]
                 or "next" not in rest_result.json_data["_links"].keys()
             ):
                 break
 
-            next_page += 1
+            params.page = params.page + 1
 
     def explore_locations(
         self,
@@ -45,24 +50,27 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
-        next_page: int = 1
+        params = ExplorationParameters(
+            search_term=search_term,
+            sort=sort,
+            page=1,
+        )
 
         while True:
             rest_result = self.explorer_api.get(
-                endpoint="v1/locations",
-                params={"search_term": search_term, "page": next_page, "sort": sort},
+                endpoint="v1/locations", params=params.model_dump(exclude_none=True)
             )
 
             for location in rest_result.json_data["locations"]:
                 yield location
 
             if (
-                next_page >= rest_result.json_data["totalPages"]
+                params.page >= rest_result.json_data["totalPages"]
                 or "next" not in rest_result.json_data["_links"].keys()
             ):
                 break
 
-            next_page += 1
+            params.page = params.page + 1
 
     def explore_product_groups(
         self,
@@ -77,7 +85,6 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
-        next_page: int = 1
         params = ExplorationParameters(
             search_term=search_term,
             categories=categories,
@@ -87,11 +94,10 @@ class Eventim:
             time_from=time_from,
             time_to=time_to,
             sort=sort,
-            page=next_page,
+            page=1,
         )
 
         while True:
-            params.page = next_page
             print(params.model_dump(exclude_none=True))
 
             rest_result = self.explorer_api.get(
@@ -102,12 +108,12 @@ class Eventim:
                 yield product_group
 
             if (
-                next_page >= rest_result.json_data["totalPages"]
+                params.page >= rest_result.json_data["totalPages"]
                 or "next" not in rest_result.json_data["_links"].keys()
             ):
                 break
 
-            next_page += 1
+            params.page = params.page + 1
 
     def get_attraction_events(self):
         raise NotImplementedError()

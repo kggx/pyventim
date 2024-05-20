@@ -1,6 +1,8 @@
 from json import JSONDecodeError
-import requests
 from typing import Dict, Any
+
+import requests
+
 
 from .exceptions import ExplorationException
 from .models import RestResult

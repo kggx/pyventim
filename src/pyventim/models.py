@@ -1,5 +1,5 @@
 from datetime import date, time
-from typing import Dict, Any, Union, Optional, List, Literal
+from typing import Dict, Any, Optional, List, Literal
 from typing_extensions import Self
 
 from pydantic import BaseModel, model_validator
@@ -26,7 +26,7 @@ class ExplorationParameters(BaseModel):
     time_from: Optional[time] = None
     time_to: Optional[time] = None
     in_stock: Optional[bool] = None
-    page: Optional[int] = 1
+    page: int = 1
     sort: Literal[
         "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
     ] = "DateAsc"
