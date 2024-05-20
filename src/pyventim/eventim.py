@@ -22,6 +22,7 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
+        # pylint: disable=line-too-long
         """This function returns attractions from the exploration API.
 
         Args:
@@ -61,6 +62,7 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
+        # pylint: disable=line-too-long
         """This function returns locations from the exploration API.
 
         Args:
@@ -105,6 +107,7 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
+        # pylint: disable=line-too-long
         """Function to return product groups and top 5 matching products from the API.
         Combining multiple parameters act as AND operators.
 
@@ -119,7 +122,7 @@ class Eventim:
             sort (Literal[ &quot;DateAsc&quot;, &quot;DateDesc&quot;, &quot;NameAsc&quot;, &quot;NameDesc&quot;, &quot;Rating&quot;, &quot;Recommendation&quot; ], optional): Sorted by. Defaults to "DateAsc".
 
         Yields:
-            Iterator[Dict]: Iterator that returns one item at the time and handles the pagination of eventim.
+            - Iterator[Dict]: Iterator that returns one item at the time and handles the pagination of eventim.
         """
         params = ExplorationParameters(
             search_term=search_term,

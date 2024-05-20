@@ -105,68 +105,67 @@ A sample product group can be found here:
 
 ```json
 {
-    "productGroupId": "473431",
-    "name": "Disneys DER K\u00d6NIG DER L\u00d6WEN",
-    "description": "Das Musical bringt die farbenpr\u00e4chtige Welt Afrikas mit wilden Tieren und der wundersch\u00f6nen Serengeti nach Hamburg.\n",
-    "startDate": "2024-03-19T18:30:00+01:00",
-    "endDate": "2025-12-21T18:30:00+01:00",
-    "productCount": 678,
-    "link": "https://www.eventim.de/artist/disneys-der-koenig-der-loewen/",
-    "url": {
-        "path": "/artist/disneys-der-koenig-der-loewen/",
-        "domain": "https://www.eventim.de"
+  "productGroupId": "473431",
+  "name": "Disneys DER K\u00d6NIG DER L\u00d6WEN",
+  "description": "Das Musical bringt die farbenpr\u00e4chtige Welt Afrikas mit wilden Tieren und der wundersch\u00f6nen Serengeti nach Hamburg.\n",
+  "startDate": "2024-03-19T18:30:00+01:00",
+  "endDate": "2025-12-21T18:30:00+01:00",
+  "productCount": 678,
+  "link": "https://www.eventim.de/artist/disneys-der-koenig-der-loewen/",
+  "url": {
+    "path": "/artist/disneys-der-koenig-der-loewen/",
+    "domain": "https://www.eventim.de"
+  },
+  "imageUrl": "https://www.eventim.de/obj/media/DE-eventim/teaser/222x222/2022/disneys-koenig-der-loewen-musical-tickets-2022.jpg",
+  "currency": "EUR",
+  "rating": {
+    "count": 5265,
+    "average": 4.660600185394287
+  },
+  "categories": [
+    {
+      "name": "Musical & Show"
     },
-    "imageUrl": "https://www.eventim.de/obj/media/DE-eventim/teaser/222x222/2022/disneys-koenig-der-loewen-musical-tickets-2022.jpg",
-    "currency": "EUR",
-    "rating": {
+    {
+      "name": "Musical",
+      "parentCategory": {
+        "name": "Musical & Show"
+      }
+    }
+  ],
+  "tags": ["TICKETDIRECT", "FANTICKET", "MOBILE_TICKET", "FANSALE"],
+  "status": "Available",
+  "products": [
+    {
+      "productId": "18637122",
+      "name": "Disneys DER K\u00d6NIG DER L\u00d6WEN",
+      "type": "LiveEntertainment",
+      "status": "Available",
+      "link": "https://www.eventim.de/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18637122/",
+      "url": {
+        "path": "/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18637122/",
+        "domain": "https://www.eventim.de"
+      },
+      "typeAttributes": {
+        "liveEntertainment": {
+          "startDate": "2024-12-31T17:00:00+01:00",
+          "location": {
+            "name": "Stage Theater im Hafen Hamburg",
+            "city": "Hamburg",
+            "geoLocation": {
+              "longitude": 9.995280019552826,
+              "latitude": 53.545300001826604
+            }
+          }
+        }
+      },
+      "rating": {
         "count": 5265,
         "average": 4.660600185394287
-    },
-    "categories": [
-        {
-            "name": "Musical & Show"
-        },
-        {
-            "name": "Musical",
-            "parentCategory": {
-                "name": "Musical & Show"
-            }
-        }
-    ],
-    "tags": ["TICKETDIRECT", "FANTICKET", "MOBILE_TICKET", "FANSALE"],
-    "status": "Available",
-    "products": [
-    {
-        "productId": "18637122",
-        "name": "Disneys DER K\u00d6NIG DER L\u00d6WEN",
-        "type": "LiveEntertainment",
-        "status": "Available",
-        "link": "https://www.eventim.de/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18637122/",
-        "url": {
-            "path": "/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18637122/",
-            "domain": "https://www.eventim.de"
-        },
-        "typeAttributes": {
-            "liveEntertainment": {
-                "startDate": "2024-12-31T17:00:00+01:00",
-                "location": {
-                    "name": "Stage Theater im Hafen Hamburg",
-                    "city": "Hamburg",
-                    "geoLocation": {
-                    "longitude": 9.995280019552826,
-                    "latitude": 53.545300001826604
-                    }
-                }
-            }
-        },
-        "rating": {
-            "count": 5265,
-            "average": 4.660600185394287
-        },
-        "tags": ["TICKETDIRECT", "FANTICKET", "MOBILE_TICKET"],
-        "hasRecommendation": false
-        },
-        ... 4 more products
-    ]
+      },
+      "tags": ["TICKETDIRECT", "FANTICKET", "MOBILE_TICKET"],
+      "hasRecommendation": false
+    }
+  ]
 }
 ```

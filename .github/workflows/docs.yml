@@ -40,7 +40,7 @@ jobs:
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
 
       - name: Build documentation HTML
-        run: pdoc ./src/pyventim -o ./docs
+        run: pdoc ./src/pyventim -o ./public -d google
 
       # Deploy the page to versioned pages
       - name: Deploy to versioned pages
@@ -48,7 +48,7 @@ jobs:
         with:
           ssh-key: ${{ secrets.GH_PYVENTIM_PAGES }}
           branch: gh-pages
-          folder: docs/
+          folder: public/
           target-folder: ${{ env.version_path }}
           clean: true
           clean-exclude: '["version"]'

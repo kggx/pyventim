@@ -1,6 +1,6 @@
 """
 .. include:: ../../README.md
-.. include:: ../EXAMPLES.md
+.. include:: ../../docs/GETTING_STARTED.md
 """
 
 from .eventim import Eventim
