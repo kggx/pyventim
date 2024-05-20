@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 14.4.0"/>
+    <meta name="generator" content="pdoc 14.5.0"/>
     <title>pyventim API documentation</title>
 
     <style>/*! * Bootstrap Reboot v5.0.0 (https://getbootstrap.com/) * Copyright 2011-2021 The Bootstrap Authors * Copyright 2011-2021 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */*,::after,::before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;background-color:#fff;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}hr{margin:1rem 0;color:inherit;background-color:currentColor;border:0;opacity:.25}hr:not([size]){height:1px}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}h4{font-size:calc(1.275rem + .3vw)}@media (min-width:1200px){h4{font-size:1.5rem}}h5{font-size:1.25rem}h6{font-size:1rem}p{margin-top:0;margin-bottom:1rem}abbr[data-bs-original-title],abbr[title]{-webkit-text-decoration:underline dotted;text-decoration:underline dotted;cursor:help;-webkit-text-decoration-skip-ink:none;text-decoration-skip-ink:none}address{margin-bottom:1rem;font-style:normal;line-height:inherit}ol,ul{padding-left:2rem}dl,ol,ul{margin-top:0;margin-bottom:1rem}ol ol,ol ul,ul ol,ul ul{margin-bottom:0}dt{font-weight:700}dd{margin-bottom:.5rem;margin-left:0}blockquote{margin:0 0 1rem}b,strong{font-weight:bolder}small{font-size:.875em}mark{padding:.2em;background-color:#fcf8e3}sub,sup{position:relative;font-size:.75em;line-height:0;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}a{color:#0d6efd;text-decoration:underline}a:hover{color:#0a58ca}a:not([href]):not([class]),a:not([href]):not([class]):hover{color:inherit;text-decoration:none}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:1em;direction:ltr;unicode-bidi:bidi-override}pre{display:block;margin-top:0;margin-bottom:1rem;overflow:auto;font-size:.875em}pre code{font-size:inherit;color:inherit;word-break:normal}code{font-size:.875em;color:#d63384;word-wrap:break-word}a>code{color:inherit}kbd{padding:.2rem .4rem;font-size:.875em;color:#fff;background-color:#212529;border-radius:.2rem}kbd kbd{padding:0;font-size:1em;font-weight:700}figure{margin:0 0 1rem}img,svg{vertical-align:middle}table{caption-side:bottom;border-collapse:collapse}caption{padding-top:.5rem;padding-bottom:.5rem;color:#6c757d;text-align:left}th{text-align:inherit;text-align:-webkit-match-parent}tbody,td,tfoot,th,thead,tr{border-color:inherit;border-style:solid;border-width:0}label{display:inline-block}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button,select{text-transform:none}[role=button]{cursor:pointer}select{word-wrap:normal}select:disabled{opacity:1}[list]::-webkit-calendar-picker-indicator{display:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}::-moz-focus-inner{padding:0;border-style:none}textarea{resize:vertical}fieldset{min-width:0;padding:0;margin:0;border:0}legend{float:left;width:100%;padding:0;margin-bottom:.5rem;font-size:calc(1.275rem + .3vw);line-height:inherit}@media (min-width:1200px){legend{font-size:1.5rem}}legend+*{clear:left}::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-fields-wrapper,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-text,::-webkit-datetime-edit-year-field{padding:0}::-webkit-inner-spin-button{height:auto}[type=search]{outline-offset:-2px;-webkit-appearance:textfield}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-color-swatch-wrapper{padding:0}::file-selector-button{font:inherit}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}output{display:inline-block}iframe{border:0}summary{display:list-item;cursor:pointer}progress{vertical-align:baseline}[hidden]{display:none!important}</style>
@@ -34,18 +34,21 @@
     <li><a href="#maintainers">Maintainers</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ul></li>
-  <li><a href="#examples">Examples</a>
+  <li><a href="#getting-started-2">Getting started</a>
   <ul>
-    <li><a href="#attractions-endpoint">Attractions Endpoint</a></li>
-    <li><a href="#locations-endpoint">Locations Endpoint</a></li>
-    <li><a href="#product-group-endpoint">Product Group Endpoint</a></li>
+    <li><a href="#module-structure">Module structure</a></li>
+    <li><a href="#exploration-endpoint">Exploration Endpoint</a></li>
+    <li><a href="#component-endpoint">Component Endpoint</a></li>
   </ul></li>
 </ul>
 
 
             <h2>Submodules</h2>
             <ul>
-                    <li><a href="pyventim/public.html">public</a></li>
+                    <li><a href="pyventim/adapters.html">adapters</a></li>
+                    <li><a href="pyventim/eventim.html">eventim</a></li>
+                    <li><a href="pyventim/exceptions.html">exceptions</a></li>
+                    <li><a href="pyventim/models.html">models</a></li>
                     <li><a href="pyventim/utils.html">utils</a></li>
             </ul>
 
@@ -84,7 +87,7 @@ pyventim    </h1>
 
 <h2 id="description">Description</h2>
 
-<p>The <a href="https://www.eventim.com/">Eventim</a> API has some public endpoints but also hidden data in the HTML responses. The project goal is to provide away to fetch this data with simple to use python objecs.</p>
+<p>The <a href="https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.com/">Eventim</a> API has some public endpoints but also hidden data in the HTML responses. The project goal is to provide away to fetch this data with simple to use python objecs.</p>
 
 <blockquote>
   <p>[!IMPORTANT]
@@ -98,6 +101,8 @@ pyventim    </h1>
 <ul>
 <li>Python &gt;= 3.10</li>
 <li>Requests &gt;= 2.31.0</li>
+<li>lxml &gt;= 5.2.2</li>
+<li>Pydantic &gt;= 2.7.0</li>
 </ul>
 
 <h3 id="installing">Installing</h3>
@@ -113,7 +118,7 @@ pyventim    </h1>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="c1"># Import the module</span>
-<span class="kn">from</span> <span class="nn"><a href="pyventim/public.html">pyventim.public</a></span> <span class="kn">import</span> <span class="n">EventimExploration</span>
+<span class="kn">from</span> <span class="nn">pyventim.public</span> <span class="kn">import</span> <span class="n">EventimExploration</span>
 
 <span class="c1"># Returns attractions found by the explorer api given the search term.</span>
 <span class="n">explorer</span><span class="p">:</span> <span class="n">EventimExploration</span> <span class="o">=</span> <span class="n">EventimExploration</span><span class="p">()</span>
@@ -182,38 +187,376 @@ pyventim    </h1>
 
 <hr>
 
-<h1 id="examples">Examples</h1>
+<h1 id="getting-started-2">Getting started</h1>
 
-<p>Here you will find some quickstart guides.</p>
+<h2 id="module-structure">Module structure</h2>
 
-<h2 id="attractions-endpoint">Attractions Endpoint</h2>
+<pre><code>|- pyventim.Eventim # G
+</code></pre>
 
-<ul>
-<li><input type="checkbox" class="task-list-item-checkbox" disabled> Attractions</li>
-</ul>
+<h2 id="exploration-endpoint">Exploration Endpoint</h2>
 
-<h2 id="locations-endpoint">Locations Endpoint</h2>
+<p>The exploration endpoint can be used to discover attractions and locations. This is the same api used by the fuzzy search on the website.
+Therefore the limit is quite high.</p>
 
-<ul>
-<li><input type="checkbox" class="task-list-item-checkbox" disabled> Locations</li>
-</ul>
+<h3 id="explore_attractions">explore_attractions</h3>
 
-<h2 id="product-group-endpoint">Product Group Endpoint</h2>
+<p>The explore_attractions returns matching attractions based on the search_term parameter
+(In the Eventim-Universe that's a musical, artist, band, etc..)</p>
 
-<ul>
-<li><input type="checkbox" class="task-list-item-checkbox" disabled> ProductGroups</li>
-</ul>
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># Returns an iterator that fetches all pages off the search endpoint.</span>
+<span class="n">attractions</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">explore_attractions</span><span class="p">(</span><span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;The Rolling Stones&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">)</span>
+
+<span class="c1"># We can loop over each attraction and print the item. The module handles fetching pages automatically.</span>
+<span class="k">for</span> <span class="n">attraction</span> <span class="ow">in</span> <span class="n">attractions</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">attraction</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>A sample attraction can be found here:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;attractionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;662&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The Rolling Stones&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The Rolling Stones sind zweifellos eine der legend\u00e4rsten Rockbands der Welt \u2013 und das liegt auch an ihren spektakul\u00e4ren Live-Shows.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/artist/the-rolling-stones/&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/artist/the-rolling-stones/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www.eventim.de&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;imageUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/obj/media/DE-eventim/galery/222x222/r/rolling-stones-tickets-2022-02-neu.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">460</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;average&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.284800052642822</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="explore_locations">explore_locations</h3>
+
+<p>The explore_attractions returns matching locations based on the search_term parameter.
+A location can be a thing like an arena, a bar or a theatere.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># Returns an iterator that fetches all pages off the search endpoint.</span>
+<span class="n">locations</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">explore_locations</span><span class="p">(</span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">)</span>
+
+<span class="c1"># We can loop over each location and print the item. The module handles fetching pages automatically.</span>
+<span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>A sample location can be found here:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;locationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vg_3880&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Erleben Sie live wie Kunst, Phantasie, Traum und Wirklichkeit miteinander verschmelzen.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hamburg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/city/hamburg-7/venue/stage-theater-im-hafen-hamburg-3880/&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/city/hamburg-7/venue/stage-theater-im-hafen-hamburg-3880/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www.eventim.de&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;imageUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/obj/media/DE-eventim/teaser/venue/222x222/2012/stage-theater-im-hafen-tickets-hamburg.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2842</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;average&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.585855007171631</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="explore_product_groups">explore_product_groups</h3>
+
+<p>The explore_attractions returns matching product groups with the 5 most relevant products based on the provided parameters.
+A product group is something like a tour, musical, festival, etc.
+A product is a concert, festical day pass, musical performance</p>
+
+<p>Please note that time_from and time_to are matched against the event start date. Therefore the below will return the product groups and 5 latest products for "Disneys DER KÖNIG DER LÖWEN"
+between 2024-12-01 and 2024-12-31 with a start time between 3pm and 6pm.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code>    <span class="n">product_groups</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">explore_product_groups</span><span class="p">(</span>
+        <span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;Disneys DER KÖNIG DER LÖWEN&quot;</span><span class="p">,</span>
+        <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;DateDesc&quot;</span><span class="p">,</span>
+        <span class="n">categories</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Musical &amp; Show&quot;</span><span class="p">],</span>
+        <span class="n">date_from</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">date_to</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+        <span class="n">time_from</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">00</span><span class="p">),</span>
+        <span class="n">time_to</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">00</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">product_group</span> <span class="ow">in</span> <span class="n">product_groups</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">product_group</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>A sample product group can be found here:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;productGroupId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;473431&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Das Musical bringt die farbenpr\u00e4chtige Welt Afrikas mit wilden Tieren und der wundersch\u00f6nen Serengeti nach Hamburg.\n&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;startDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-19T18:30:00+01:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;endDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-21T18:30:00+01:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;productCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">678</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/artist/disneys-der-koenig-der-loewen/&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/artist/disneys-der-koenig-der-loewen/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www.eventim.de&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;imageUrl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/obj/media/DE-eventim/teaser/222x222/2022/disneys-koenig-der-loewen-musical-tickets-2022.jpg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EUR&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5265</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;average&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.660600185394287</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Musical &amp; Show&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Musical&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;parentCategory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Musical &amp; Show&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;TICKETDIRECT&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FANTICKET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MOBILE_TICKET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FANSALE&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Available&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;products&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;productId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18637122&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LiveEntertainment&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Available&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;link&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18637122/&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18637122/&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;domain&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www.eventim.de&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;typeAttributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;liveEntertainment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;startDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-31T17:00:00+01:00&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hamburg&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;geoLocation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.995280019552826</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">53.545300001826604</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5265</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;average&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.660600185394287</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;TICKETDIRECT&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FANTICKET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MOBILE_TICKET&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;hasRecommendation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="component-endpoint">Component Endpoint</h2>
+
+<p>This endpoint can be used to get data to specifict attractions. An example would be all events by an artist. The data is fetched by a lxml parser to look for key words in the HTML code that include interesting data.</p>
+
+<p>Functionality can break without notice because this is parsed via HTML.</p>
+
+<h3 id="get_attraction_events">get_attraction_events</h3>
+
+<p>This endpoint fetches data about upcomming events in the <a href="https://schema.org/MusicEvent">https://schema.org/MusicEvent</a> schema. Attraction ids can be found in the <code>explore_attractions</code> function.</p>
+
+<p><strong>Note</strong>: This only returns the next 90 events. If you need more events consider using the <a href="###get_attraction_events_from_calendar">get_attraction_events_from_calendar</a> function which is faster in any case.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># The attraction id for &quot;Disneys DER KÖNIG DER LÖWEN&quot;</span>
+<span class="n">attraction_id</span> <span class="o">=</span> <span class="mi">473431</span>
+
+<span class="c1"># Return the next 7 days</span>
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">date_from</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="n">date_to</span> <span class="o">=</span> <span class="p">(</span><span class="n">now</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">))</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+
+<span class="c1"># Make the request and loop over attraction events</span>
+<span class="n">attraction_events</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">get_attraction_events</span><span class="p">(</span>
+    <span class="n">attraction_id</span><span class="o">=</span><span class="n">attraction_id</span><span class="p">,</span>
+    <span class="n">date_from</span><span class="o">=</span><span class="n">date_from</span><span class="p">,</span>
+    <span class="n">date_to</span><span class="o">=</span><span class="n">date_to</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">attraction_event</span> <span class="ow">in</span> <span class="n">attraction_events</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">attraction_event</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>A sample attraction event can be found here:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;@context&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://schema.org&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MusicEvent&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Das Musical bringt die farbenpr\u00e4chtige Welt Afrikas mit wilden Tieren und der wundersch\u00f6nen Serengeti nach Hamburg.\n&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;endDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-21T18:30:00.000+02:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/obj/media/DE-eventim/teaser/222x222/2022/disneys-koenig-der-loewen-musical-tickets-2022.jpg&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/obj/media/DE-eventim/teaser/222x222/2022/disneys-koenig-der-loewen-musical-tickets-2022.jpg&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/obj/media/DE-eventim/teaser/artworks/2024/disneys-der-koenig-der-loewen-musical-tickets-header.jpg&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sameAs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/city/hamburg-7/venue/stage-theater-im-hafen-hamburg-3880/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;streetAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Norderelbstrasse 6&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;postalCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20457&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;addressLocality&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hamburg&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;addressRegion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;addressCountry&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DE&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PostalAddress&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Place&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;offers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;primary&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">96.99000000000001</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;priceCurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EUR&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;availability&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InStock&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-16825147/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;validFrom&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-03-28T10:00:00.000+02:00&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Offer&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;performer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;@type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PerformingGroup&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;startDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-21T18:30:00.000+02:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www<a href="pyventim/eventim.html">pyventim.eventim</a>.de/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-16825147/&quot;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="get_attraction_events_from_calendar">get_attraction_events_from_calendar</h3>
+
+<p>This function will return all available events for the attraction with similar data like the <a href="###get_attraction_events">get_attraction_events</a> function. Attraction ids can be found in the <code>explore_attractions</code> function.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># The attraction id for &quot;Disneys DER KÖNIG DER LÖWEN&quot;</span>
+<span class="n">attraction_id</span> <span class="o">=</span> <span class="mi">473431</span>
+
+<span class="c1"># Return the next 7 days</span>
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">date_from</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="n">date_to</span> <span class="o">=</span> <span class="p">(</span><span class="n">now</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">))</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+
+<span class="c1"># Make the request and loop over attraction calendar events</span>
+<span class="n">attraction_calendar_events</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">get_attraction_events_from_calendar</span><span class="p">(</span>
+    <span class="n">attraction_id</span><span class="o">=</span><span class="n">attraction_id</span><span class="p">,</span>
+    <span class="n">date_from</span><span class="o">=</span><span class="n">date_from</span><span class="p">,</span>
+    <span class="n">date_to</span><span class="o">=</span><span class="n">date_to</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">attraction_calendar_event</span> <span class="ow">in</span> <span class="n">attraction_calendar_events</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">attraction_calendar_event</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>A sample calendar attraction event can be found here:</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16825147&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-16825147/&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-21T18:30:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;18:30&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ab \u20ac\u00a096,99&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;21.05.2024&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tileFirstLine&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;\u00a0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;priceAvailable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ticketAvailable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ticketStatusMessage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Verf\u00fcgbar&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventState&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;voucher&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;promotionContained&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;subscriptionPackage&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;subscriptionPackageData&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;venueName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;\u00a0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;first&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;second&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HAMBURG&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;third&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventWeekday&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dienstag&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;identicalCity&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;identicalVenue&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;marketingLabels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nt">&quot;clubIcon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;iconVisible&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;marketingLabel&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ticketTypeInfoVisible&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ticketTypeInfo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;iconColor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;subListings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nt">&quot;externalOffers&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tdlId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3357219</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formattedDay&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;21&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formattedMonthYear&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mai 2024&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formattedWeekdayTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Di. 18:30&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formattedIsoDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-05-21T18:30:00.000+02:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;continuousEventData&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventFavoritesItem&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;imagePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;linkToModalLayer&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;medalIcon&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;genderIcon&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;formattedDateTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;desc1&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;desc2&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;crossedOutPrice&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;bookable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;availabilityIndicator&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;willCall&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ticketDirect&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventimPass&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;mobileTicket&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fanticket&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;red&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;trackingData&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16825147&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K&amp;Ouml;NIG DER L&amp;Ouml;WEN&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 </div>
 
                         <input id="mod-pyventim-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-pyventim-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">1</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos">2</span></a><span class="sd">.. include:: ../../README.md</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos">3</span></a><span class="sd">&lt;hr&gt;</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos">4</span></a><span class="sd">.. include:: EXAMPLES.md</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">5</span></a><span class="sd">&quot;&quot;&quot;</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">.. include:: ../../README.md</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">.. include:: ../../docs/getting_started.md</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">.. include:: ../../docs/exploration_endpoint.md</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">.. include:: ../../docs/component_endpoint.md</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span> <span class="nn">.eventim</span> <span class="kn">import</span> <span class="n">Eventim</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">exceptions</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
 </span></pre></div>
 
 
