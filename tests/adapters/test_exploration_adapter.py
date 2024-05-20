@@ -1,5 +1,4 @@
-"""Unit tests to validate the adapters.ExplorationAdapter
-"""
+"""Unit tests to validate the adapters.ExplorationAdapter"""
 
 import pytest
 from pyventim import adapters  # pylint: disable=E0401

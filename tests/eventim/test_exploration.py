@@ -1,3 +1,5 @@
+"""Module to test the highlevel eventim.Eventim exploration methods"""
+
 from typing import Dict, Iterator
 
 import pytest

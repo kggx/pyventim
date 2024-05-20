@@ -22,6 +22,15 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
+        """This function returns attractions from the exploration API.
+
+        Args:
+            search_term (str): Search term to query the API.
+            sort (Literal[ &quot;DateAsc&quot;, &quot;DateDesc&quot;, &quot;NameAsc&quot;, &quot;NameDesc&quot;, &quot;Rating&quot;, &quot;Recommendation&quot; ], optional): Sorted by. Defaults to "DateAsc".
+
+        Yields:
+            Iterator[Dict]: Iterator that returns one item at the time and handles the pagination of eventim.
+        """
         params = ExplorationParameters(
             search_term=search_term,
             sort=sort,
@@ -52,6 +61,15 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
+        """This function returns locations from the exploration API.
+
+        Args:
+            search_term (str): Search term to query the API.
+            sort (Literal[ &quot;DateAsc&quot;, &quot;DateDesc&quot;, &quot;NameAsc&quot;, &quot;NameDesc&quot;, &quot;Rating&quot;, &quot;Recommendation&quot; ], optional): Sorted by. Defaults to "DateAsc".
+
+        Yields:
+            Iterator[Dict]: Iterator that returns one item at the time and handles the pagination of eventim.
+        """
         params = ExplorationParameters(
             search_term=search_term,
             sort=sort,
@@ -87,6 +105,22 @@ class Eventim:
             "DateAsc", "DateDesc", "NameAsc", "NameDesc", "Rating", "Recommendation"
         ] = "DateAsc",
     ) -> Iterator[Dict]:
+        """Function to return product groups and top 5 matching products from the API.
+        Combining multiple parameters act as AND operators.
+
+        Args:
+            search_term (str | None, optional): Search term to query the API.. Defaults to None.
+            categories (List[str] | None, optional): Categories to limit the search. Defaults to None.
+            city_ids (List[int] | None, optional): Cities to limit the search. Defaults to None.
+            date_from (date | None, optional): Product date later than. Defaults to None.
+            date_to (date | None, optional): Product date earlier than. Defaults to None.
+            time_from (time | None, optional): Start time of product later than. Defaults to None.
+            time_to (time | None, optional): Start time of product earlier than. Defaults to None.
+            sort (Literal[ &quot;DateAsc&quot;, &quot;DateDesc&quot;, &quot;NameAsc&quot;, &quot;NameDesc&quot;, &quot;Rating&quot;, &quot;Recommendation&quot; ], optional): Sorted by. Defaults to "DateAsc".
+
+        Yields:
+            Iterator[Dict]: Iterator that returns one item at the time and handles the pagination of eventim.
+        """
         params = ExplorationParameters(
             search_term=search_term,
             categories=categories,
@@ -114,6 +148,3 @@ class Eventim:
                 break
 
             params.page = params.page + 1
-
-    def get_attraction_events(self):
-        raise NotImplementedError()
