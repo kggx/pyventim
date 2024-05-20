@@ -28,6 +28,8 @@ The [Eventim](https://www.eventim.com/) API has some public endpoints but also h
 
 - Python >= 3.10
 - Requests >= 2.31.0
+- lxml >= 5.2.2
+- Pydantic >= 2.7.0
 
 ### Installing
 

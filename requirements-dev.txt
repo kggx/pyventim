@@ -1,5 +1,7 @@
 # Main module
 requests >= 2.31.0
+lxml >= 5.2.2
+pydantic >= 2.7.0
 
 # Development tooling
 flake8 >= 7.0.0
