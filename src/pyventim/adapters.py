@@ -31,13 +31,15 @@ class RestAdapter:
         params: Dict | None = None,
         json_data: Dict | None = None,
     ) -> RestResult:
+        print(method, self.hostname, endpoint, params, json_data)
         try:
-            response = self.session.request(
+            response: requests.Response = self.session.request(
                 method=method,
                 url=f"{self.hostname}/{endpoint}",
                 params=params,
                 json=json_data,
             )
+
         except requests.exceptions.RequestException as e:
             raise RestException("Request failed") from e
 
@@ -56,7 +58,7 @@ class RestAdapter:
         raise RestException(f"{response.status_code}: {response.reason}")
 
     def get(self, endpoint: str, params: Dict | None = None) -> RestResult:
-        """Get a choosen endpoint on the public-api.eventim.com.
+        """Get a choosen endpoint on a restful API.
 
         Args:
             endpoint (str): Endpoint to query.
@@ -113,7 +115,7 @@ class HtmlAdapter:
         raise HtmlException(f"{response.status_code}: {response.reason}")
 
     def get(self, endpoint: str, params: Dict | None = None) -> HtmlResult:
-        """Get a choosen endpoint on the public-api.eventim.com.
+        """Get a choosen endpoint on the html page.
 
         Args:
             endpoint (str): Endpoint to query.
