@@ -1,10 +1,7 @@
-<hr>
-
-# Getting started
-
-Here you will find a quickstart quide and some information about the data returned by the API.
-
 ## Exploration Endpoint
+
+The exploration endpoint can be used to discover attractions and locations. This is the same api used by the fuzzy search on the website.
+Therefore the limit is quite high.
 
 ### explore_attractions
 

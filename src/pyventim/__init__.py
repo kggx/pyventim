@@ -1,6 +1,8 @@
 """
 .. include:: ../../README.md
-.. include:: ../../docs/GETTING_STARTED.md
+.. include:: ../../docs/getting_started.md
+.. include:: ../../docs/exploration_endpoint.md
+.. include:: ../../docs/component_endpoint.md
 """
 
 from .eventim import Eventim
