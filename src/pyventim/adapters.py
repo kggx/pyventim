@@ -2,7 +2,7 @@
 
 from json import JSONDecodeError
 from typing import Dict, Any
-
+import logging
 import requests
 
 from .exceptions import RestException, HtmlException
@@ -12,14 +12,18 @@ from .models import RestResult, HtmlResult
 class RestAdapter:
     """Adapter for all resta based requests"""
 
-    def __init__(self, session: requests.Session | None = None) -> None:
+    def __init__(
+        self,
+        session: requests.Session | None = None,
+        logger: logging.Logger | None = None,
+    ) -> None:
         self.session: requests.Session = session or requests.Session()
         self.session.headers.update(
             {
                 "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0"  # pylint: disable=C0301
             }
         )
-
+        self._logger = logger or logging.getLogger(__name__)
         self.hostname = (
             "https://public-api.eventim.com/websearch/search/api/exploration"
         )
@@ -39,7 +43,7 @@ class RestAdapter:
                 params=params,
                 json=json_data,
             )
-
+            self._logger.debug(response.request.url)
         except requests.exceptions.RequestException as e:
             raise RestException("Request failed") from e
 
@@ -73,14 +77,18 @@ class RestAdapter:
 class HtmlAdapter:
     """Adapter for all html based requests."""
 
-    def __init__(self, session: requests.Session | None = None) -> None:
+    def __init__(
+        self,
+        session: requests.Session | None = None,
+        logger: logging.Logger | None = None,
+    ) -> None:
         self.session: requests.Session = session or requests.Session()
         self.session.headers.update(
             {
                 "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0"  # pylint: disable=C0301
             }
         )
-
+        self._logger = logger or logging.getLogger(__name__)
         self.hostname = "https://www.eventim.de/"
 
     def _do(
@@ -97,6 +105,7 @@ class HtmlAdapter:
                 params=params,
                 json=json_data,
             )
+            self._logger.debug(response.request.url)
         except requests.exceptions.RequestException as e:
             raise HtmlException("Request failed") from e
 
