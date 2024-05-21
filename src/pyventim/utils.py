@@ -89,12 +89,11 @@ def parse_has_next_page_from_component_html(html: str) -> bool:
 
 
 def parse_seatmap_configuration_from_event_html(html: str):
-    # <script type="application/configuration">
-    # seatmapOptions
-    return json.loads(
-        lxml.html.fromstring(html)
-        .xpath(
-            ".//script[@type='application/configuration' and contains(text(),'seatmapOptions')]"
-        )[0]
-        .text
+    matches = lxml.html.fromstring(html).xpath(
+        ".//script[@type='application/configuration' and contains(text(),'seatmapOptions')]"
     )
+    if len(matches) > 0:
+        return json.loads(matches[0].text)
+
+    else:
+        return None
