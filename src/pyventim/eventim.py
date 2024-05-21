@@ -158,21 +158,21 @@ class Eventim:
 
             params.page = params.page + 1
 
-    def get_attraction_events(
+    def get_product_group_events(
         self,
-        attraction_id: int,
+        product_group_id: int,
         date_from: date | None = None,
         date_to: date | None = None,
         ticket_type: Literal["tickets", "vip_packages", "extras"] | None = None,
         city_name: str | None = None,
     ) -> Iterator[Dict]:
         # pylint: disable=line-too-long
-        """This returns the attraction events. The attraction events follow this schema: https://schema.org/MusicEvent.
+        """This returns the product_group_id events. The product_group_id events follow this schema: https://schema.org/MusicEvent.
         The API only returns a maximum of 90 events. This should be plenty but some event types like continous musicals have more than 90 events
-        **If you try to fetching many events (>90) at a time then get_attraction_events_from_calendar() should be used.**
+        **If you try to fetching many events (>90) at a time then get_product_group_events_from_calendar() should be used.**
 
         Args:
-            attraction_id (int): Attraction ID to query
+            product_group_id (int): product_group_id to query
             date_from (date | None, optional): Event date later than. Defaults to None.
             date_to (date | None, optional): Event date earlier than. Defaults to None.
             ticket_type (Literal[&quot;tickets&quot;, &quot;vip_packages&quot;, &quot;extras&quot;] | None, optional): Include only events with tickets avialible in type. Defaults to None.
@@ -183,7 +183,7 @@ class Eventim:
         """
 
         params = ComponentParameters(
-            esid=attraction_id,
+            esid=product_group_id,
             startdate=date_from,
             enddate=date_to,
             ptype=ticket_type,
@@ -194,29 +194,29 @@ class Eventim:
             comp_result = self.html_adapter.get(
                 endpoint="component", params=params.model_dump(exclude_none=True)
             )
-            attraction_events = parse_list_from_component_html(comp_result.html_data)
+            product_group_events = parse_list_from_component_html(comp_result.html_data)
 
-            for attraction_event in attraction_events:
-                yield attraction_event
+            for product_group_event in product_group_events:
+                yield product_group_event
 
             if parse_has_next_page_from_component_html(comp_result.html_data) is False:
                 break
 
             params.pnum = params.pnum + 1
 
-    def get_attraction_events_from_calendar(
+    def get_product_group_events_from_calendar(
         self,
-        attraction_id: int,
+        product_group_id: int,
         date_from: date | None = None,
         date_to: date | None = None,
         ticket_type: Literal["tickets", "vip_packages", "extras"] | None = None,
         city_name: str | None = None,
     ) -> Iterator[Dict]:
         # pylint: disable=line-too-long
-        """This returns the attraction events. The attraction events follow a custom calendar schema.
+        """This returns the product_group events. The product_group events follow a custom calendar schema.
 
         Args:
-            attraction_id (int): Attraction ID to query
+            product_group_id (int): product_group_id to query
             date_from (date | None, optional): Event date later than. Defaults to None.
             date_to (date | None, optional): Event date earlier than. Defaults to None.
             ticket_type (Literal[&quot;tickets&quot;, &quot;vip_packages&quot;, &quot;extras&quot;] | None, optional): Include only events with tickets avialible in type. Defaults to None.
@@ -226,7 +226,7 @@ class Eventim:
             Iterator[Dict]: The events in a calendar schema.
         """
         params = ComponentParameters(
-            esid=attraction_id,
+            esid=product_group_id,
             startdate=date_from,
             enddate=date_to,
             ptype=ticket_type,
@@ -243,5 +243,5 @@ class Eventim:
 
         calendar_content = calendar_configuration["calendar_content"]
 
-        for attraction_event in calendar_content["result"]:
-            yield attraction_event
+        for product_group_event in calendar_content["result"]:
+            yield product_group_event
