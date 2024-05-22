@@ -43,8 +43,19 @@ class RestAdapter:
                 params=params,
                 json=json_data,
             )
-            self._logger.debug(response.request.url)
+
         except requests.exceptions.RequestException as e:
+            self._logger.critical(f"Request failed at {self.hostname}/{endpoint}")
+            preview = self.session.prepare_request(
+                requests.Request(
+                    method=method,
+                    url=f"{self.hostname}/{endpoint}",
+                    params=params,
+                    json=json_data,
+                )
+            )
+            self._logger.debug(preview.url)
+
             raise RestException("Request failed") from e
 
         try:
@@ -105,9 +116,21 @@ class HtmlAdapter:
                 params=params,
                 json=json_data,
             )
-            self._logger.debug(response.request.url)
+
         except requests.exceptions.RequestException as e:
+            self._logger.critical(f"Request failed at {self.hostname}/{endpoint}")
+            preview = self.session.prepare_request(
+                requests.Request(
+                    method=method,
+                    url=f"{self.hostname}/{endpoint}",
+                    params=params,
+                    json=json_data,
+                )
+            )
+            self._logger.debug(preview.url)
             raise HtmlException("Request failed") from e
+
+        self._logger.debug(response.request.url)
 
         try:
             data_out: str = response.content.decode("utf-8")
