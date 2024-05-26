@@ -34,11 +34,11 @@
     <li><a href="#maintainers">Maintainers</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ul></li>
-  <li><a href="#getting-started-2">Getting started</a>
+  <li><a href="#examples">Examples</a>
   <ul>
-    <li><a href="#module-structure">Module structure</a></li>
     <li><a href="#exploration-endpoint">Exploration Endpoint</a></li>
     <li><a href="#component-endpoint">Component Endpoint</a></li>
+    <li><a href="#seatmap-endpoint">Seatmap Endpoint</a></li>
   </ul></li>
 </ul>
 
@@ -114,18 +114,31 @@ pyventim    </h1>
 
 <h3 id="quick-start">Quick start</h3>
 
-<h4 id="public-api">Public API</h4>
+<p>To find attractions we can use the exploration endpoint:</p>
 
 <div class="pdoc-code codehilite">
-<pre><span></span><code><span class="c1"># Import the module</span>
-<span class="kn">from</span> <span class="nn">pyventim.public</span> <span class="kn">import</span> <span class="n">EventimExploration</span>
+<pre><span></span><code><span class="kn">import</span> <span class="nn">pyventim</span>
 
-<span class="c1"># Returns attractions found by the explorer api given the search term.</span>
-<span class="n">explorer</span><span class="p">:</span> <span class="n">EventimExploration</span> <span class="o">=</span> <span class="n">EventimExploration</span><span class="p">()</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">explorer</span><span class="o">.</span><span class="n">explore_attractions</span><span class="p">(</span>
-    <span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;Stage Theater im Hafen Hamburg&quot;</span><span class="p">,</span>
-    <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;DateAsc&quot;</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="c1"># Create the Eventim class</span>
+<span class="n">eventim</span> <span class="o">=</span> <span class="n">pyventim</span><span class="o">.</span><span class="n">Eventim</span><span class="p">()</span>
+
+<span class="c1"># Returns an iterator that fetches all pages off the search endpoint.</span>
+<span class="n">attractions</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">explore_attractions</span><span class="p">(</span><span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;Landmvrks&quot;</span><span class="p">)</span>
+
+<span class="c1"># We can loop over each attraction. The module handles fetching pages automatically.</span>
+<span class="k">for</span> <span class="n">attraction</span> <span class="ow">in</span> <span class="n">attractions</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">attraction</span><span class="p">[</span><span class="s2">&quot;attractionId&quot;</span><span class="p">],</span> <span class="n">attraction</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>Next we use the product group endpoint to fetch events for our attraction and get the events of the html endpoint.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># We loop over each product group and fetch the events automatically.</span>
+<span class="k">for</span> <span class="n">product_group</span> <span class="ow">in</span> <span class="n">eventim</span><span class="o">.</span><span class="n">explore_product_groups</span><span class="p">(</span><span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;Landmvrks&quot;</span><span class="p">):</span>
+    <span class="n">product_group_id</span> <span class="o">=</span> <span class="n">product_group</span><span class="p">[</span><span class="s2">&quot;productGroupId&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">eventim</span><span class="o">.</span><span class="n">get_product_group_events_from_calendar</span><span class="p">(</span><span class="n">product_group_id</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;eventDate&quot;</span><span class="p">],</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;price&quot;</span><span class="p">],</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;ticketAvailable&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; | &quot;</span><span class="p">)</span>
 </code></pre>
 </div>
 
@@ -187,12 +200,7 @@ pyventim    </h1>
 
 <hr>
 
-<h1 id="getting-started-2">Getting started</h1>
-
-<h2 id="module-structure">Module structure</h2>
-
-<pre><code>|- pyventim.Eventim # G
-</code></pre>
+<h1 id="examples">Examples</h1>
 
 <h2 id="exploration-endpoint">Exploration Endpoint</h2>
 
@@ -539,6 +547,116 @@ between 2024-12-01 and 2024-12-31 with a start time between 3pm and 6pm.</p>
 <span class="p">}</span>
 </code></pre>
 </div>
+
+<h2 id="seatmap-endpoint">Seatmap Endpoint</h2>
+
+<p>This endpoint can be used to get seatmap data of specific attraction.</p>
+
+<p>Functionality can break without notice because this is parsed via HTML.</p>
+
+<h3 id="get_event_seatmap_information">get_event_seatmap_information</h3>
+
+<p>This function can return data about the seatmap if found in the HTML of the event page. If no seat map is found then None will be returned.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># This will fetch the html for the given event. Note the url must match the structure in the example!</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">get_event_seatmap_information</span><span class="p">(</span><span class="s2">&quot;/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18500464/&quot;</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>A sample for the seatmap information can be found here (Note this is truncated.):</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;fansale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;seatmapOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;seatmapIsDefault&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;packageData&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;maxAmountForEvent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;minAmountForEvent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;maxAmountForPromo&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;preselectedPcId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;showBackLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;backLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-16828914/&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;eventName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Disneys DER K\u00d6NIG DER L\u00d6WEN&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;restrictions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;cartData&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;panoramaOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;imageviewerOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;ccEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;initialRequestPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/shoppingCart/?affiliate=EVE&amp;token=518ACD577869FB764ED195DF569D347C&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;captchaActive&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;captchaAPIPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;//www.google.com/recaptcha/api.js?hl=de&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;captchaSiteKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pcFlyoutExpanded&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pcUpgradeActiveClass&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;js-pc-upgrade-active&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pricePlaceholder&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#PRICE#&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hasPriceDisclaimerHint&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hasCorporateBenefits&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hasCombinedTicketTypes&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hasAllCategoriesToggleText&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reducedAvailabilityWidgetLink&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hasOptionsFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ticketTypeFilterMap&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;api&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/corporate/benefit/limits/?affiliate=EVE&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;useParis24Styles&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;messages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">&lt;</span><span class="mi">-</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="mi">-</span><span class="err">&gt;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="get_event_seatmap">get_event_seatmap</h3>
+
+<p>This function returns seatmap data with avialible seats and their pricing data. This could be used to generate a seatmap image or make yield analytics.</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># This will fetch the html for the given event. Note the url must match the structure in the example!</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">get_event_seatmap_information</span><span class="p">(</span><span class="s2">&quot;/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18500464/&quot;</span><span class="p">)</span>
+<span class="n">seatmap</span> <span class="o">=</span> <span class="n">eventim</span><span class="o">.</span><span class="n">get_event_seatmap</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;seatmapOptions&quot;</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>A sample for the seatmap information can be found here (Note this is fictional data):</p>
+
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;seatmap_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;web_1_16828914_0_EVE_0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;seatmap_timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1716717879990</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;seatmap_individual_seats&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2051</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;seatmap_dimension_x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8192</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;seatmap_dimension_y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8192</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;seatmap_seat_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;blocks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;block_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;block_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parkett links&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;block_description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parkett links&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;block_rows&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;row_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r4&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;row_seats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;seat_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;s515&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;seat_price_category_index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;seat_coordinate_x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3846</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;seat_coordinate_y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1699</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;price_categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;price_category_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;p32919041&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;price_category_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Kat. 1 Premium&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;price_category_color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#f1075e&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 </div>
 
                         <input id="mod-pyventim-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -547,16 +665,17 @@ between 2024-12-01 and 2024-12-31 with a start time between 3pm and 6pm.</p>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">.. include:: ../../README.md</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">.. include:: ../../docs/getting_started.md</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">.. include:: ../../docs/examples.md</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">.. include:: ../../docs/exploration_endpoint.md</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">.. include:: ../../docs/component_endpoint.md</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span> <span class="nn">.eventim</span> <span class="kn">import</span> <span class="n">Eventim</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">exceptions</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">.. include:: ../../docs/seatmap_endpoint.md</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span> <span class="nn">.eventim</span> <span class="kn">import</span> <span class="n">Eventim</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">models</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">exceptions</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
 </span></pre></div>
 
 

@@ -31,37 +31,37 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
-                    <a class="class" href="#ExplorationAdapter">ExplorationAdapter</a>
+                    <a class="class" href="#RestAdapter">RestAdapter</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="function" href="#ExplorationAdapter.__init__">ExplorationAdapter</a>
+                                <a class="function" href="#RestAdapter.__init__">RestAdapter</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ExplorationAdapter.session">session</a>
+                                <a class="variable" href="#RestAdapter.session">session</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ExplorationAdapter.hostname">hostname</a>
+                                <a class="variable" href="#RestAdapter.hostname">hostname</a>
                         </li>
                         <li>
-                                <a class="function" href="#ExplorationAdapter.get">get</a>
+                                <a class="function" href="#RestAdapter.get">get</a>
                         </li>
                 </ul>
 
             </li>
             <li>
-                    <a class="class" href="#ComponentAdapter">ComponentAdapter</a>
+                    <a class="class" href="#HtmlAdapter">HtmlAdapter</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="function" href="#ComponentAdapter.__init__">ComponentAdapter</a>
+                                <a class="function" href="#HtmlAdapter.__init__">HtmlAdapter</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ComponentAdapter.session">session</a>
+                                <a class="variable" href="#HtmlAdapter.session">session</a>
                         </li>
                         <li>
-                                <a class="variable" href="#ComponentAdapter.hostname">hostname</a>
+                                <a class="variable" href="#HtmlAdapter.hostname">hostname</a>
                         </li>
                         <li>
-                                <a class="function" href="#ComponentAdapter.get">get</a>
+                                <a class="function" href="#HtmlAdapter.get">get</a>
                         </li>
                 </ul>
 
@@ -93,337 +93,332 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span> <span class="nn">logging</span>
 </span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span> <span class="nn">requests</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ExplorationException</span><span class="p">,</span> <span class="n">ComponentException</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">RestException</span><span class="p">,</span> <span class="n">HtmlException</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">RestResult</span><span class="p">,</span> <span class="n">HtmlResult</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="k">class</span> <span class="nc">ExplorationAdapter</span><span class="p">:</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for the exploration endpoint&quot;&quot;&quot;</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="k">class</span> <span class="nc">RestAdapter</span><span class="p">:</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for all resta based requests&quot;&quot;&quot;</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>            <span class="p">{</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>            <span class="p">}</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>        <span class="p">)</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>
-</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>            <span class="s2">&quot;https://public-api.eventim.com/websearch/search/api/exploration&quot;</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>        <span class="p">)</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>            <span class="p">)</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>            <span class="k">raise</span> <span class="n">ExplorationException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>            <span class="k">raise</span> <span class="n">ExplorationException</span><span class="p">(</span><span class="s2">&quot;Bad JSON in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>            <span class="k">return</span> <span class="n">RestResult</span><span class="p">(</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>                <span class="n">json_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>        <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>        <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>        <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>            <span class="p">{</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>            <span class="p">}</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>        <span class="p">)</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>            <span class="n">response</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>            <span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request failed at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>            <span class="n">preview</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>                <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>                    <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>                    <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>                    <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>                <span class="p">)</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>            <span class="p">)</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="k">raise</span> <span class="n">ExplorationException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the public-api.eventim.com.</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="sd">        Args:</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="sd">        Returns:</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">preview</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>            <span class="k">raise</span> <span class="n">RestException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>            <span class="k">raise</span> <span class="n">RestException</span><span class="p">(</span><span class="s2">&quot;Bad JSON in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>            <span class="k">return</span> <span class="n">RestResult</span><span class="p">(</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>                <span class="n">json_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>            <span class="p">)</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="k">class</span> <span class="nc">ComponentAdapter</span><span class="p">:</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>            <span class="p">{</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>            <span class="p">}</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>        <span class="k">raise</span> <span class="n">RestException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on a restful API.</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">        Args:</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
 </span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;https://www.eventim.de/component&quot;</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>            <span class="p">)</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>            <span class="k">raise</span> <span class="n">ComponentException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>            <span class="k">raise</span> <span class="n">ComponentException</span><span class="p">(</span><span class="s2">&quot;Bad HTML in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>            <span class="k">return</span> <span class="n">HtmlResult</span><span class="p">(</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>                <span class="n">html_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="p">)</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">raise</span> <span class="n">ComponentException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the public-api.eventim.com.</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">        Args:</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        Returns:</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="k">class</span> <span class="nc">HtmlAdapter</span><span class="p">:</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for all html based requests.&quot;&quot;&quot;</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://www.eventim.de/&quot;</span><span class="p">,</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>        <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>            <span class="p">{</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>            <span class="p">}</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>        <span class="p">)</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>            <span class="p">)</span>
 </span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">        Returns:</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="c1"># class EventimCompenent:</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="c1">#     &quot;&quot;&quot;Class that handles access to the public Eventim API for components.&quot;&quot;&quot;</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="c1">#     def __init__(self, session: requests.Session = None) -&gt; None:</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="c1">#         # If a valid session is not provided by the user create a new one.</span>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="c1">#         if not isinstance(session, requests.Session):</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="c1">#             self.session: requests.Session = requests.Session()</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="c1">#         else:</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="c1">#             self.session: requests.Session = session</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="c1">#         # Requires a desktop browser user-agent</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="c1">#         self.session.headers.update(</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="c1">#             {</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="c1">#                 &quot;user-agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="c1">#             }</span>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="c1">#         )</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="c1">#         self.endpoint = &quot;https://www.eventim.de/component/&quot;</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="c1">#     def get_attraction_events(self, attraction_id: int) -&gt; dict:</span>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="c1">#         r = self.session.get(</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="c1">#             f&quot;{self.endpoint}&quot;,</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="c1">#             headers={},</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="c1">#             params={</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="c1">#                 &quot;doc&quot;: &quot;component&quot;,</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="c1">#                 &quot;esid&quot;: f&quot;{attraction_id}&quot;,</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="c1">#                 &quot;fun&quot;: &quot;eventselectionbox&quot;,</span>
-</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="c1">#                 # &quot;startdate&quot;: None,</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="c1">#                 # &quot;enddate&quot;: None,</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a><span class="c1">#                 # &quot;ptype&quot;: None,</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="c1">#                 # &quot;cityname&quot;: None,</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="c1">#                 # &quot;filterused&quot;: True,</span>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="c1">#                 # &quot;pnum&quot;: 1,</span>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="c1">#             },</span>
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="c1">#         )</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a><span class="c1">#         r.raise_for_status()</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="c1">#         return r.content.decode(&quot;utf-8&quot;)</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="c1">#         # Actually returning json in scheme: https://schema.org/MusicEvent</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="c1">#         # https://www.eventim.de/component/?affiliate=EVE&amp;cityname=Berlin&amp;doc=component&amp;esid=3642502&amp;filterused=true&amp;fun=eventselectionbox&amp;tab=1&amp;startdate=2024-05-22</span>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="c1">#         # https://www.eventim.de/component/?doc=component&amp;enddate=2024-09-30&amp;esid=473431&amp;fun=eventlisting&amp;pnum=2&amp;ptype=&amp;startdate=2024-05-18</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="c1">#         # Parameters</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="c1">#         # esid via public exploration API aka artist id</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="c1">#         # pnum = page number</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="c1">#         # filterused = true</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="c1">#         # startdate</span>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="c1">#         # enddate</span>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="c1">#         # ptype=tickets | vip_packages (TODO: Look for types)</span>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="c1">#         # fun=eventselectionbox</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="c1">#         # doc=component</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="c1">#         # cityname=Hamburg</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="c1">#         # raise NotImplementedError()</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="c1">#     # König der Löwen:</span>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="c1">#     # https://www.eventim.de/component/?affiliate=EVE&amp;cityname=Hamburg&amp;doc=component&amp;esid=473431&amp;filterused=true&amp;fun=eventselectionbox&amp;startdate=2024-05-12&amp;tab=2&amp;enddate=2024-05-12</span>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="c1">#     # Sleep Token https://www.eventim.de/component/</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request failed at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>            <span class="n">preview</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>                <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>                    <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>                    <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>                    <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>                <span class="p">)</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>            <span class="p">)</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">preview</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>            <span class="k">raise</span> <span class="n">HtmlException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>            <span class="k">raise</span> <span class="n">HtmlException</span><span class="p">(</span><span class="s2">&quot;Bad HTML in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>            <span class="k">return</span> <span class="n">HtmlResult</span><span class="p">(</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>                <span class="n">html_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>            <span class="p">)</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>        <span class="k">raise</span> <span class="n">HtmlException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the html page.</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="sd">        Args:</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">        Returns:</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </span></pre></div>
 
 
             </section>
-                <section id="ExplorationAdapter">
-                            <input id="ExplorationAdapter-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="RestAdapter">
+                            <input id="RestAdapter-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">ExplorationAdapter</span>:
+    <span class="name">RestAdapter</span>:
 
-                <label class="view-source-button" for="ExplorationAdapter-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="RestAdapter-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ExplorationAdapter"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ExplorationAdapter-13"><a href="#ExplorationAdapter-13"><span class="linenos">13</span></a><span class="k">class</span> <span class="nc">ExplorationAdapter</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-14"><a href="#ExplorationAdapter-14"><span class="linenos">14</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for the exploration endpoint&quot;&quot;&quot;</span>
-</span><span id="ExplorationAdapter-15"><a href="#ExplorationAdapter-15"><span class="linenos">15</span></a>
-</span><span id="ExplorationAdapter-16"><a href="#ExplorationAdapter-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-17"><a href="#ExplorationAdapter-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
-</span><span id="ExplorationAdapter-18"><a href="#ExplorationAdapter-18"><span class="linenos">18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span id="ExplorationAdapter-19"><a href="#ExplorationAdapter-19"><span class="linenos">19</span></a>            <span class="p">{</span>
-</span><span id="ExplorationAdapter-20"><a href="#ExplorationAdapter-20"><span class="linenos">20</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
-</span><span id="ExplorationAdapter-21"><a href="#ExplorationAdapter-21"><span class="linenos">21</span></a>            <span class="p">}</span>
-</span><span id="ExplorationAdapter-22"><a href="#ExplorationAdapter-22"><span class="linenos">22</span></a>        <span class="p">)</span>
-</span><span id="ExplorationAdapter-23"><a href="#ExplorationAdapter-23"><span class="linenos">23</span></a>
-</span><span id="ExplorationAdapter-24"><a href="#ExplorationAdapter-24"><span class="linenos">24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="ExplorationAdapter-25"><a href="#ExplorationAdapter-25"><span class="linenos">25</span></a>            <span class="s2">&quot;https://public-api.eventim.com/websearch/search/api/exploration&quot;</span>
-</span><span id="ExplorationAdapter-26"><a href="#ExplorationAdapter-26"><span class="linenos">26</span></a>        <span class="p">)</span>
-</span><span id="ExplorationAdapter-27"><a href="#ExplorationAdapter-27"><span class="linenos">27</span></a>
-</span><span id="ExplorationAdapter-28"><a href="#ExplorationAdapter-28"><span class="linenos">28</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
-</span><span id="ExplorationAdapter-29"><a href="#ExplorationAdapter-29"><span class="linenos">29</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-30"><a href="#ExplorationAdapter-30"><span class="linenos">30</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-31"><a href="#ExplorationAdapter-31"><span class="linenos">31</span></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-32"><a href="#ExplorationAdapter-32"><span class="linenos">32</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-33"><a href="#ExplorationAdapter-33"><span class="linenos">33</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-34"><a href="#ExplorationAdapter-34"><span class="linenos">34</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-35"><a href="#ExplorationAdapter-35"><span class="linenos">35</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-36"><a href="#ExplorationAdapter-36"><span class="linenos">36</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-</span><span id="ExplorationAdapter-37"><a href="#ExplorationAdapter-37"><span class="linenos">37</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-38"><a href="#ExplorationAdapter-38"><span class="linenos">38</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-39"><a href="#ExplorationAdapter-39"><span class="linenos">39</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-40"><a href="#ExplorationAdapter-40"><span class="linenos">40</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-41"><a href="#ExplorationAdapter-41"><span class="linenos">41</span></a>            <span class="p">)</span>
-</span><span id="ExplorationAdapter-42"><a href="#ExplorationAdapter-42"><span class="linenos">42</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-43"><a href="#ExplorationAdapter-43"><span class="linenos">43</span></a>            <span class="k">raise</span> <span class="n">ExplorationException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="ExplorationAdapter-44"><a href="#ExplorationAdapter-44"><span class="linenos">44</span></a>
-</span><span id="ExplorationAdapter-45"><a href="#ExplorationAdapter-45"><span class="linenos">45</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-46"><a href="#ExplorationAdapter-46"><span class="linenos">46</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="ExplorationAdapter-47"><a href="#ExplorationAdapter-47"><span class="linenos">47</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-48"><a href="#ExplorationAdapter-48"><span class="linenos">48</span></a>            <span class="k">raise</span> <span class="n">ExplorationException</span><span class="p">(</span><span class="s2">&quot;Bad JSON in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="ExplorationAdapter-49"><a href="#ExplorationAdapter-49"><span class="linenos">49</span></a>
-</span><span id="ExplorationAdapter-50"><a href="#ExplorationAdapter-50"><span class="linenos">50</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-51"><a href="#ExplorationAdapter-51"><span class="linenos">51</span></a>            <span class="k">return</span> <span class="n">RestResult</span><span class="p">(</span>
-</span><span id="ExplorationAdapter-52"><a href="#ExplorationAdapter-52"><span class="linenos">52</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-53"><a href="#ExplorationAdapter-53"><span class="linenos">53</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-54"><a href="#ExplorationAdapter-54"><span class="linenos">54</span></a>                <span class="n">json_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
-</span><span id="ExplorationAdapter-55"><a href="#ExplorationAdapter-55"><span class="linenos">55</span></a>            <span class="p">)</span>
-</span><span id="ExplorationAdapter-56"><a href="#ExplorationAdapter-56"><span class="linenos">56</span></a>
-</span><span id="ExplorationAdapter-57"><a href="#ExplorationAdapter-57"><span class="linenos">57</span></a>        <span class="k">raise</span> <span class="n">ExplorationException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="ExplorationAdapter-58"><a href="#ExplorationAdapter-58"><span class="linenos">58</span></a>
-</span><span id="ExplorationAdapter-59"><a href="#ExplorationAdapter-59"><span class="linenos">59</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
-</span><span id="ExplorationAdapter-60"><a href="#ExplorationAdapter-60"><span class="linenos">60</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the public-api.eventim.com.</span>
-</span><span id="ExplorationAdapter-61"><a href="#ExplorationAdapter-61"><span class="linenos">61</span></a>
-</span><span id="ExplorationAdapter-62"><a href="#ExplorationAdapter-62"><span class="linenos">62</span></a><span class="sd">        Args:</span>
-</span><span id="ExplorationAdapter-63"><a href="#ExplorationAdapter-63"><span class="linenos">63</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
-</span><span id="ExplorationAdapter-64"><a href="#ExplorationAdapter-64"><span class="linenos">64</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
-</span><span id="ExplorationAdapter-65"><a href="#ExplorationAdapter-65"><span class="linenos">65</span></a>
-</span><span id="ExplorationAdapter-66"><a href="#ExplorationAdapter-66"><span class="linenos">66</span></a><span class="sd">        Returns:</span>
-</span><span id="ExplorationAdapter-67"><a href="#ExplorationAdapter-67"><span class="linenos">67</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
-</span><span id="ExplorationAdapter-68"><a href="#ExplorationAdapter-68"><span class="linenos">68</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ExplorationAdapter-69"><a href="#ExplorationAdapter-69"><span class="linenos">69</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <a class="headerlink" href="#RestAdapter"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="RestAdapter-13"><a href="#RestAdapter-13"><span class="linenos">13</span></a><span class="k">class</span> <span class="nc">RestAdapter</span><span class="p">:</span>
+</span><span id="RestAdapter-14"><a href="#RestAdapter-14"><span class="linenos">14</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for all resta based requests&quot;&quot;&quot;</span>
+</span><span id="RestAdapter-15"><a href="#RestAdapter-15"><span class="linenos">15</span></a>
+</span><span id="RestAdapter-16"><a href="#RestAdapter-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="RestAdapter-17"><a href="#RestAdapter-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="RestAdapter-18"><a href="#RestAdapter-18"><span class="linenos">18</span></a>        <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="RestAdapter-19"><a href="#RestAdapter-19"><span class="linenos">19</span></a>        <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="RestAdapter-20"><a href="#RestAdapter-20"><span class="linenos">20</span></a>        <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="RestAdapter-21"><a href="#RestAdapter-21"><span class="linenos">21</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="RestAdapter-22"><a href="#RestAdapter-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+</span><span id="RestAdapter-23"><a href="#RestAdapter-23"><span class="linenos">23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="RestAdapter-24"><a href="#RestAdapter-24"><span class="linenos">24</span></a>            <span class="p">{</span>
+</span><span id="RestAdapter-25"><a href="#RestAdapter-25"><span class="linenos">25</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
+</span><span id="RestAdapter-26"><a href="#RestAdapter-26"><span class="linenos">26</span></a>            <span class="p">}</span>
+</span><span id="RestAdapter-27"><a href="#RestAdapter-27"><span class="linenos">27</span></a>        <span class="p">)</span>
+</span><span id="RestAdapter-28"><a href="#RestAdapter-28"><span class="linenos">28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="RestAdapter-29"><a href="#RestAdapter-29"><span class="linenos">29</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+</span><span id="RestAdapter-30"><a href="#RestAdapter-30"><span class="linenos">30</span></a>
+</span><span id="RestAdapter-31"><a href="#RestAdapter-31"><span class="linenos">31</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
+</span><span id="RestAdapter-32"><a href="#RestAdapter-32"><span class="linenos">32</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="RestAdapter-33"><a href="#RestAdapter-33"><span class="linenos">33</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="RestAdapter-34"><a href="#RestAdapter-34"><span class="linenos">34</span></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="RestAdapter-35"><a href="#RestAdapter-35"><span class="linenos">35</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="RestAdapter-36"><a href="#RestAdapter-36"><span class="linenos">36</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="RestAdapter-37"><a href="#RestAdapter-37"><span class="linenos">37</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
+</span><span id="RestAdapter-38"><a href="#RestAdapter-38"><span class="linenos">38</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="RestAdapter-39"><a href="#RestAdapter-39"><span class="linenos">39</span></a>            <span class="n">response</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+</span><span id="RestAdapter-40"><a href="#RestAdapter-40"><span class="linenos">40</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="RestAdapter-41"><a href="#RestAdapter-41"><span class="linenos">41</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="RestAdapter-42"><a href="#RestAdapter-42"><span class="linenos">42</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="RestAdapter-43"><a href="#RestAdapter-43"><span class="linenos">43</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="RestAdapter-44"><a href="#RestAdapter-44"><span class="linenos">44</span></a>            <span class="p">)</span>
+</span><span id="RestAdapter-45"><a href="#RestAdapter-45"><span class="linenos">45</span></a>
+</span><span id="RestAdapter-46"><a href="#RestAdapter-46"><span class="linenos">46</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="RestAdapter-47"><a href="#RestAdapter-47"><span class="linenos">47</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request failed at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="RestAdapter-48"><a href="#RestAdapter-48"><span class="linenos">48</span></a>            <span class="n">preview</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span>
+</span><span id="RestAdapter-49"><a href="#RestAdapter-49"><span class="linenos">49</span></a>                <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+</span><span id="RestAdapter-50"><a href="#RestAdapter-50"><span class="linenos">50</span></a>                    <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="RestAdapter-51"><a href="#RestAdapter-51"><span class="linenos">51</span></a>                    <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="RestAdapter-52"><a href="#RestAdapter-52"><span class="linenos">52</span></a>                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="RestAdapter-53"><a href="#RestAdapter-53"><span class="linenos">53</span></a>                    <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="RestAdapter-54"><a href="#RestAdapter-54"><span class="linenos">54</span></a>                <span class="p">)</span>
+</span><span id="RestAdapter-55"><a href="#RestAdapter-55"><span class="linenos">55</span></a>            <span class="p">)</span>
+</span><span id="RestAdapter-56"><a href="#RestAdapter-56"><span class="linenos">56</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">preview</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="RestAdapter-57"><a href="#RestAdapter-57"><span class="linenos">57</span></a>
+</span><span id="RestAdapter-58"><a href="#RestAdapter-58"><span class="linenos">58</span></a>            <span class="k">raise</span> <span class="n">RestException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="RestAdapter-59"><a href="#RestAdapter-59"><span class="linenos">59</span></a>
+</span><span id="RestAdapter-60"><a href="#RestAdapter-60"><span class="linenos">60</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="RestAdapter-61"><a href="#RestAdapter-61"><span class="linenos">61</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</span><span id="RestAdapter-62"><a href="#RestAdapter-62"><span class="linenos">62</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="RestAdapter-63"><a href="#RestAdapter-63"><span class="linenos">63</span></a>            <span class="k">raise</span> <span class="n">RestException</span><span class="p">(</span><span class="s2">&quot;Bad JSON in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="RestAdapter-64"><a href="#RestAdapter-64"><span class="linenos">64</span></a>
+</span><span id="RestAdapter-65"><a href="#RestAdapter-65"><span class="linenos">65</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
+</span><span id="RestAdapter-66"><a href="#RestAdapter-66"><span class="linenos">66</span></a>            <span class="k">return</span> <span class="n">RestResult</span><span class="p">(</span>
+</span><span id="RestAdapter-67"><a href="#RestAdapter-67"><span class="linenos">67</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+</span><span id="RestAdapter-68"><a href="#RestAdapter-68"><span class="linenos">68</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span><span id="RestAdapter-69"><a href="#RestAdapter-69"><span class="linenos">69</span></a>                <span class="n">json_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
+</span><span id="RestAdapter-70"><a href="#RestAdapter-70"><span class="linenos">70</span></a>            <span class="p">)</span>
+</span><span id="RestAdapter-71"><a href="#RestAdapter-71"><span class="linenos">71</span></a>
+</span><span id="RestAdapter-72"><a href="#RestAdapter-72"><span class="linenos">72</span></a>        <span class="k">raise</span> <span class="n">RestException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="RestAdapter-73"><a href="#RestAdapter-73"><span class="linenos">73</span></a>
+</span><span id="RestAdapter-74"><a href="#RestAdapter-74"><span class="linenos">74</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
+</span><span id="RestAdapter-75"><a href="#RestAdapter-75"><span class="linenos">75</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on a restful API.</span>
+</span><span id="RestAdapter-76"><a href="#RestAdapter-76"><span class="linenos">76</span></a>
+</span><span id="RestAdapter-77"><a href="#RestAdapter-77"><span class="linenos">77</span></a><span class="sd">        Args:</span>
+</span><span id="RestAdapter-78"><a href="#RestAdapter-78"><span class="linenos">78</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
+</span><span id="RestAdapter-79"><a href="#RestAdapter-79"><span class="linenos">79</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
+</span><span id="RestAdapter-80"><a href="#RestAdapter-80"><span class="linenos">80</span></a>
+</span><span id="RestAdapter-81"><a href="#RestAdapter-81"><span class="linenos">81</span></a><span class="sd">        Returns:</span>
+</span><span id="RestAdapter-82"><a href="#RestAdapter-82"><span class="linenos">82</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
+</span><span id="RestAdapter-83"><a href="#RestAdapter-83"><span class="linenos">83</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="RestAdapter-84"><a href="#RestAdapter-84"><span class="linenos">84</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Adapter for the exploration endpoint</p>
+            <div class="docstring"><p>Adapter for all resta based requests</p>
 </div>
 
 
-                            <div id="ExplorationAdapter.__init__" class="classattr">
-                                        <input id="ExplorationAdapter.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="RestAdapter.__init__" class="classattr">
+                                        <input id="RestAdapter.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">ExplorationAdapter</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">RestAdapter</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
-                <label class="view-source-button" for="ExplorationAdapter.__init__-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="RestAdapter.__init__-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ExplorationAdapter.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ExplorationAdapter.__init__-16"><a href="#ExplorationAdapter.__init__-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ExplorationAdapter.__init__-17"><a href="#ExplorationAdapter.__init__-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
-</span><span id="ExplorationAdapter.__init__-18"><a href="#ExplorationAdapter.__init__-18"><span class="linenos">18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span id="ExplorationAdapter.__init__-19"><a href="#ExplorationAdapter.__init__-19"><span class="linenos">19</span></a>            <span class="p">{</span>
-</span><span id="ExplorationAdapter.__init__-20"><a href="#ExplorationAdapter.__init__-20"><span class="linenos">20</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
-</span><span id="ExplorationAdapter.__init__-21"><a href="#ExplorationAdapter.__init__-21"><span class="linenos">21</span></a>            <span class="p">}</span>
-</span><span id="ExplorationAdapter.__init__-22"><a href="#ExplorationAdapter.__init__-22"><span class="linenos">22</span></a>        <span class="p">)</span>
-</span><span id="ExplorationAdapter.__init__-23"><a href="#ExplorationAdapter.__init__-23"><span class="linenos">23</span></a>
-</span><span id="ExplorationAdapter.__init__-24"><a href="#ExplorationAdapter.__init__-24"><span class="linenos">24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="ExplorationAdapter.__init__-25"><a href="#ExplorationAdapter.__init__-25"><span class="linenos">25</span></a>            <span class="s2">&quot;https://public-api.eventim.com/websearch/search/api/exploration&quot;</span>
-</span><span id="ExplorationAdapter.__init__-26"><a href="#ExplorationAdapter.__init__-26"><span class="linenos">26</span></a>        <span class="p">)</span>
+    <a class="headerlink" href="#RestAdapter.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="RestAdapter.__init__-16"><a href="#RestAdapter.__init__-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="RestAdapter.__init__-17"><a href="#RestAdapter.__init__-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="RestAdapter.__init__-18"><a href="#RestAdapter.__init__-18"><span class="linenos">18</span></a>        <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="RestAdapter.__init__-19"><a href="#RestAdapter.__init__-19"><span class="linenos">19</span></a>        <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="RestAdapter.__init__-20"><a href="#RestAdapter.__init__-20"><span class="linenos">20</span></a>        <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="RestAdapter.__init__-21"><a href="#RestAdapter.__init__-21"><span class="linenos">21</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="RestAdapter.__init__-22"><a href="#RestAdapter.__init__-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+</span><span id="RestAdapter.__init__-23"><a href="#RestAdapter.__init__-23"><span class="linenos">23</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="RestAdapter.__init__-24"><a href="#RestAdapter.__init__-24"><span class="linenos">24</span></a>            <span class="p">{</span>
+</span><span id="RestAdapter.__init__-25"><a href="#RestAdapter.__init__-25"><span class="linenos">25</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
+</span><span id="RestAdapter.__init__-26"><a href="#RestAdapter.__init__-26"><span class="linenos">26</span></a>            <span class="p">}</span>
+</span><span id="RestAdapter.__init__-27"><a href="#RestAdapter.__init__-27"><span class="linenos">27</span></a>        <span class="p">)</span>
+</span><span id="RestAdapter.__init__-28"><a href="#RestAdapter.__init__-28"><span class="linenos">28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="RestAdapter.__init__-29"><a href="#RestAdapter.__init__-29"><span class="linenos">29</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
 </span></pre></div>
 
 
     
 
                             </div>
-                            <div id="ExplorationAdapter.session" class="classattr">
+                            <div id="RestAdapter.session" class="classattr">
                                 <div class="attr variable">
             <span class="name">session</span><span class="annotation">: requests.sessions.Session</span>
 
         
     </div>
-    <a class="headerlink" href="#ExplorationAdapter.session"></a>
+    <a class="headerlink" href="#RestAdapter.session"></a>
     
     
 
                             </div>
-                            <div id="ExplorationAdapter.hostname" class="classattr">
+                            <div id="RestAdapter.hostname" class="classattr">
                                 <div class="attr variable">
             <span class="name">hostname</span>
 
         
     </div>
-    <a class="headerlink" href="#ExplorationAdapter.hostname"></a>
+    <a class="headerlink" href="#RestAdapter.hostname"></a>
     
     
 
                             </div>
-                            <div id="ExplorationAdapter.get" class="classattr">
-                                        <input id="ExplorationAdapter.get-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="RestAdapter.get" class="classattr">
+                                        <input id="RestAdapter.get-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
         <span class="name">get</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="models.html#RestResult">pyventim.models.RestResult</a></span>:</span></span>
 
-                <label class="view-source-button" for="ExplorationAdapter.get-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="RestAdapter.get-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ExplorationAdapter.get"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ExplorationAdapter.get-59"><a href="#ExplorationAdapter.get-59"><span class="linenos">59</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
-</span><span id="ExplorationAdapter.get-60"><a href="#ExplorationAdapter.get-60"><span class="linenos">60</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the public-api.eventim.com.</span>
-</span><span id="ExplorationAdapter.get-61"><a href="#ExplorationAdapter.get-61"><span class="linenos">61</span></a>
-</span><span id="ExplorationAdapter.get-62"><a href="#ExplorationAdapter.get-62"><span class="linenos">62</span></a><span class="sd">        Args:</span>
-</span><span id="ExplorationAdapter.get-63"><a href="#ExplorationAdapter.get-63"><span class="linenos">63</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
-</span><span id="ExplorationAdapter.get-64"><a href="#ExplorationAdapter.get-64"><span class="linenos">64</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
-</span><span id="ExplorationAdapter.get-65"><a href="#ExplorationAdapter.get-65"><span class="linenos">65</span></a>
-</span><span id="ExplorationAdapter.get-66"><a href="#ExplorationAdapter.get-66"><span class="linenos">66</span></a><span class="sd">        Returns:</span>
-</span><span id="ExplorationAdapter.get-67"><a href="#ExplorationAdapter.get-67"><span class="linenos">67</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
-</span><span id="ExplorationAdapter.get-68"><a href="#ExplorationAdapter.get-68"><span class="linenos">68</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ExplorationAdapter.get-69"><a href="#ExplorationAdapter.get-69"><span class="linenos">69</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <a class="headerlink" href="#RestAdapter.get"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="RestAdapter.get-74"><a href="#RestAdapter.get-74"><span class="linenos">74</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RestResult</span><span class="p">:</span>
+</span><span id="RestAdapter.get-75"><a href="#RestAdapter.get-75"><span class="linenos">75</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on a restful API.</span>
+</span><span id="RestAdapter.get-76"><a href="#RestAdapter.get-76"><span class="linenos">76</span></a>
+</span><span id="RestAdapter.get-77"><a href="#RestAdapter.get-77"><span class="linenos">77</span></a><span class="sd">        Args:</span>
+</span><span id="RestAdapter.get-78"><a href="#RestAdapter.get-78"><span class="linenos">78</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
+</span><span id="RestAdapter.get-79"><a href="#RestAdapter.get-79"><span class="linenos">79</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
+</span><span id="RestAdapter.get-80"><a href="#RestAdapter.get-80"><span class="linenos">80</span></a>
+</span><span id="RestAdapter.get-81"><a href="#RestAdapter.get-81"><span class="linenos">81</span></a><span class="sd">        Returns:</span>
+</span><span id="RestAdapter.get-82"><a href="#RestAdapter.get-82"><span class="linenos">82</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
+</span><span id="RestAdapter.get-83"><a href="#RestAdapter.get-83"><span class="linenos">83</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="RestAdapter.get-84"><a href="#RestAdapter.get-84"><span class="linenos">84</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Get a choosen endpoint on the public-api.eventim.com.</p>
+            <div class="docstring"><p>Get a choosen endpoint on a restful API.</p>
 
 <h6 id="arguments">Arguments:</h6>
 
@@ -442,147 +437,175 @@
 
                             </div>
                 </section>
-                <section id="ComponentAdapter">
-                            <input id="ComponentAdapter-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="HtmlAdapter">
+                            <input id="HtmlAdapter-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">ComponentAdapter</span>:
+    <span class="name">HtmlAdapter</span>:
 
-                <label class="view-source-button" for="ComponentAdapter-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="HtmlAdapter-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ComponentAdapter"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ComponentAdapter-72"><a href="#ComponentAdapter-72"><span class="linenos"> 72</span></a><span class="k">class</span> <span class="nc">ComponentAdapter</span><span class="p">:</span>
-</span><span id="ComponentAdapter-73"><a href="#ComponentAdapter-73"><span class="linenos"> 73</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ComponentAdapter-74"><a href="#ComponentAdapter-74"><span class="linenos"> 74</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
-</span><span id="ComponentAdapter-75"><a href="#ComponentAdapter-75"><span class="linenos"> 75</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span id="ComponentAdapter-76"><a href="#ComponentAdapter-76"><span class="linenos"> 76</span></a>            <span class="p">{</span>
-</span><span id="ComponentAdapter-77"><a href="#ComponentAdapter-77"><span class="linenos"> 77</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
-</span><span id="ComponentAdapter-78"><a href="#ComponentAdapter-78"><span class="linenos"> 78</span></a>            <span class="p">}</span>
-</span><span id="ComponentAdapter-79"><a href="#ComponentAdapter-79"><span class="linenos"> 79</span></a>        <span class="p">)</span>
-</span><span id="ComponentAdapter-80"><a href="#ComponentAdapter-80"><span class="linenos"> 80</span></a>
-</span><span id="ComponentAdapter-81"><a href="#ComponentAdapter-81"><span class="linenos"> 81</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;https://www.eventim.de/component&quot;</span>
-</span><span id="ComponentAdapter-82"><a href="#ComponentAdapter-82"><span class="linenos"> 82</span></a>
-</span><span id="ComponentAdapter-83"><a href="#ComponentAdapter-83"><span class="linenos"> 83</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
-</span><span id="ComponentAdapter-84"><a href="#ComponentAdapter-84"><span class="linenos"> 84</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="ComponentAdapter-85"><a href="#ComponentAdapter-85"><span class="linenos"> 85</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="ComponentAdapter-86"><a href="#ComponentAdapter-86"><span class="linenos"> 86</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="ComponentAdapter-87"><a href="#ComponentAdapter-87"><span class="linenos"> 87</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="ComponentAdapter-88"><a href="#ComponentAdapter-88"><span class="linenos"> 88</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
-</span><span id="ComponentAdapter-89"><a href="#ComponentAdapter-89"><span class="linenos"> 89</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="ComponentAdapter-90"><a href="#ComponentAdapter-90"><span class="linenos"> 90</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-</span><span id="ComponentAdapter-91"><a href="#ComponentAdapter-91"><span class="linenos"> 91</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-</span><span id="ComponentAdapter-92"><a href="#ComponentAdapter-92"><span class="linenos"> 92</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="ComponentAdapter-93"><a href="#ComponentAdapter-93"><span class="linenos"> 93</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-</span><span id="ComponentAdapter-94"><a href="#ComponentAdapter-94"><span class="linenos"> 94</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
-</span><span id="ComponentAdapter-95"><a href="#ComponentAdapter-95"><span class="linenos"> 95</span></a>            <span class="p">)</span>
-</span><span id="ComponentAdapter-96"><a href="#ComponentAdapter-96"><span class="linenos"> 96</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="ComponentAdapter-97"><a href="#ComponentAdapter-97"><span class="linenos"> 97</span></a>            <span class="k">raise</span> <span class="n">ComponentException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="ComponentAdapter-98"><a href="#ComponentAdapter-98"><span class="linenos"> 98</span></a>
-</span><span id="ComponentAdapter-99"><a href="#ComponentAdapter-99"><span class="linenos"> 99</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="ComponentAdapter-100"><a href="#ComponentAdapter-100"><span class="linenos">100</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-</span><span id="ComponentAdapter-101"><a href="#ComponentAdapter-101"><span class="linenos">101</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="ComponentAdapter-102"><a href="#ComponentAdapter-102"><span class="linenos">102</span></a>            <span class="k">raise</span> <span class="n">ComponentException</span><span class="p">(</span><span class="s2">&quot;Bad HTML in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-</span><span id="ComponentAdapter-103"><a href="#ComponentAdapter-103"><span class="linenos">103</span></a>
-</span><span id="ComponentAdapter-104"><a href="#ComponentAdapter-104"><span class="linenos">104</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
-</span><span id="ComponentAdapter-105"><a href="#ComponentAdapter-105"><span class="linenos">105</span></a>            <span class="k">return</span> <span class="n">HtmlResult</span><span class="p">(</span>
-</span><span id="ComponentAdapter-106"><a href="#ComponentAdapter-106"><span class="linenos">106</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
-</span><span id="ComponentAdapter-107"><a href="#ComponentAdapter-107"><span class="linenos">107</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
-</span><span id="ComponentAdapter-108"><a href="#ComponentAdapter-108"><span class="linenos">108</span></a>                <span class="n">html_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
-</span><span id="ComponentAdapter-109"><a href="#ComponentAdapter-109"><span class="linenos">109</span></a>            <span class="p">)</span>
-</span><span id="ComponentAdapter-110"><a href="#ComponentAdapter-110"><span class="linenos">110</span></a>
-</span><span id="ComponentAdapter-111"><a href="#ComponentAdapter-111"><span class="linenos">111</span></a>        <span class="k">raise</span> <span class="n">ComponentException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="ComponentAdapter-112"><a href="#ComponentAdapter-112"><span class="linenos">112</span></a>
-</span><span id="ComponentAdapter-113"><a href="#ComponentAdapter-113"><span class="linenos">113</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
-</span><span id="ComponentAdapter-114"><a href="#ComponentAdapter-114"><span class="linenos">114</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the public-api.eventim.com.</span>
-</span><span id="ComponentAdapter-115"><a href="#ComponentAdapter-115"><span class="linenos">115</span></a>
-</span><span id="ComponentAdapter-116"><a href="#ComponentAdapter-116"><span class="linenos">116</span></a><span class="sd">        Args:</span>
-</span><span id="ComponentAdapter-117"><a href="#ComponentAdapter-117"><span class="linenos">117</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
-</span><span id="ComponentAdapter-118"><a href="#ComponentAdapter-118"><span class="linenos">118</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
-</span><span id="ComponentAdapter-119"><a href="#ComponentAdapter-119"><span class="linenos">119</span></a>
-</span><span id="ComponentAdapter-120"><a href="#ComponentAdapter-120"><span class="linenos">120</span></a><span class="sd">        Returns:</span>
-</span><span id="ComponentAdapter-121"><a href="#ComponentAdapter-121"><span class="linenos">121</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
-</span><span id="ComponentAdapter-122"><a href="#ComponentAdapter-122"><span class="linenos">122</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ComponentAdapter-123"><a href="#ComponentAdapter-123"><span class="linenos">123</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <a class="headerlink" href="#HtmlAdapter"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="HtmlAdapter-87"><a href="#HtmlAdapter-87"><span class="linenos"> 87</span></a><span class="k">class</span> <span class="nc">HtmlAdapter</span><span class="p">:</span>
+</span><span id="HtmlAdapter-88"><a href="#HtmlAdapter-88"><span class="linenos"> 88</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for all html based requests.&quot;&quot;&quot;</span>
+</span><span id="HtmlAdapter-89"><a href="#HtmlAdapter-89"><span class="linenos"> 89</span></a>
+</span><span id="HtmlAdapter-90"><a href="#HtmlAdapter-90"><span class="linenos"> 90</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="HtmlAdapter-91"><a href="#HtmlAdapter-91"><span class="linenos"> 91</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="HtmlAdapter-92"><a href="#HtmlAdapter-92"><span class="linenos"> 92</span></a>        <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://www.eventim.de/&quot;</span><span class="p">,</span>
+</span><span id="HtmlAdapter-93"><a href="#HtmlAdapter-93"><span class="linenos"> 93</span></a>        <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="HtmlAdapter-94"><a href="#HtmlAdapter-94"><span class="linenos"> 94</span></a>        <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="HtmlAdapter-95"><a href="#HtmlAdapter-95"><span class="linenos"> 95</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="HtmlAdapter-96"><a href="#HtmlAdapter-96"><span class="linenos"> 96</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+</span><span id="HtmlAdapter-97"><a href="#HtmlAdapter-97"><span class="linenos"> 97</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="HtmlAdapter-98"><a href="#HtmlAdapter-98"><span class="linenos"> 98</span></a>            <span class="p">{</span>
+</span><span id="HtmlAdapter-99"><a href="#HtmlAdapter-99"><span class="linenos"> 99</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
+</span><span id="HtmlAdapter-100"><a href="#HtmlAdapter-100"><span class="linenos">100</span></a>            <span class="p">}</span>
+</span><span id="HtmlAdapter-101"><a href="#HtmlAdapter-101"><span class="linenos">101</span></a>        <span class="p">)</span>
+</span><span id="HtmlAdapter-102"><a href="#HtmlAdapter-102"><span class="linenos">102</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="HtmlAdapter-103"><a href="#HtmlAdapter-103"><span class="linenos">103</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+</span><span id="HtmlAdapter-104"><a href="#HtmlAdapter-104"><span class="linenos">104</span></a>
+</span><span id="HtmlAdapter-105"><a href="#HtmlAdapter-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">_do</span><span class="p">(</span>
+</span><span id="HtmlAdapter-106"><a href="#HtmlAdapter-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="HtmlAdapter-107"><a href="#HtmlAdapter-107"><span class="linenos">107</span></a>        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="HtmlAdapter-108"><a href="#HtmlAdapter-108"><span class="linenos">108</span></a>        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="HtmlAdapter-109"><a href="#HtmlAdapter-109"><span class="linenos">109</span></a>        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="HtmlAdapter-110"><a href="#HtmlAdapter-110"><span class="linenos">110</span></a>        <span class="n">json_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="HtmlAdapter-111"><a href="#HtmlAdapter-111"><span class="linenos">111</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
+</span><span id="HtmlAdapter-112"><a href="#HtmlAdapter-112"><span class="linenos">112</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="HtmlAdapter-113"><a href="#HtmlAdapter-113"><span class="linenos">113</span></a>            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+</span><span id="HtmlAdapter-114"><a href="#HtmlAdapter-114"><span class="linenos">114</span></a>                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="HtmlAdapter-115"><a href="#HtmlAdapter-115"><span class="linenos">115</span></a>                <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="HtmlAdapter-116"><a href="#HtmlAdapter-116"><span class="linenos">116</span></a>                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="HtmlAdapter-117"><a href="#HtmlAdapter-117"><span class="linenos">117</span></a>                <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="HtmlAdapter-118"><a href="#HtmlAdapter-118"><span class="linenos">118</span></a>            <span class="p">)</span>
+</span><span id="HtmlAdapter-119"><a href="#HtmlAdapter-119"><span class="linenos">119</span></a>
+</span><span id="HtmlAdapter-120"><a href="#HtmlAdapter-120"><span class="linenos">120</span></a>        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="HtmlAdapter-121"><a href="#HtmlAdapter-121"><span class="linenos">121</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request failed at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="HtmlAdapter-122"><a href="#HtmlAdapter-122"><span class="linenos">122</span></a>            <span class="n">preview</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span>
+</span><span id="HtmlAdapter-123"><a href="#HtmlAdapter-123"><span class="linenos">123</span></a>                <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+</span><span id="HtmlAdapter-124"><a href="#HtmlAdapter-124"><span class="linenos">124</span></a>                    <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+</span><span id="HtmlAdapter-125"><a href="#HtmlAdapter-125"><span class="linenos">125</span></a>                    <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="HtmlAdapter-126"><a href="#HtmlAdapter-126"><span class="linenos">126</span></a>                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+</span><span id="HtmlAdapter-127"><a href="#HtmlAdapter-127"><span class="linenos">127</span></a>                    <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">,</span>
+</span><span id="HtmlAdapter-128"><a href="#HtmlAdapter-128"><span class="linenos">128</span></a>                <span class="p">)</span>
+</span><span id="HtmlAdapter-129"><a href="#HtmlAdapter-129"><span class="linenos">129</span></a>            <span class="p">)</span>
+</span><span id="HtmlAdapter-130"><a href="#HtmlAdapter-130"><span class="linenos">130</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">preview</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="HtmlAdapter-131"><a href="#HtmlAdapter-131"><span class="linenos">131</span></a>            <span class="k">raise</span> <span class="n">HtmlException</span><span class="p">(</span><span class="s2">&quot;Request failed&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="HtmlAdapter-132"><a href="#HtmlAdapter-132"><span class="linenos">132</span></a>
+</span><span id="HtmlAdapter-133"><a href="#HtmlAdapter-133"><span class="linenos">133</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</span><span id="HtmlAdapter-134"><a href="#HtmlAdapter-134"><span class="linenos">134</span></a>
+</span><span id="HtmlAdapter-135"><a href="#HtmlAdapter-135"><span class="linenos">135</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="HtmlAdapter-136"><a href="#HtmlAdapter-136"><span class="linenos">136</span></a>            <span class="n">data_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span id="HtmlAdapter-137"><a href="#HtmlAdapter-137"><span class="linenos">137</span></a>        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="HtmlAdapter-138"><a href="#HtmlAdapter-138"><span class="linenos">138</span></a>            <span class="k">raise</span> <span class="n">HtmlException</span><span class="p">(</span><span class="s2">&quot;Bad HTML in response&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+</span><span id="HtmlAdapter-139"><a href="#HtmlAdapter-139"><span class="linenos">139</span></a>
+</span><span id="HtmlAdapter-140"><a href="#HtmlAdapter-140"><span class="linenos">140</span></a>        <span class="k">if</span> <span class="mi">299</span> <span class="o">&gt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span>
+</span><span id="HtmlAdapter-141"><a href="#HtmlAdapter-141"><span class="linenos">141</span></a>            <span class="k">return</span> <span class="n">HtmlResult</span><span class="p">(</span>
+</span><span id="HtmlAdapter-142"><a href="#HtmlAdapter-142"><span class="linenos">142</span></a>                <span class="n">status_code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+</span><span id="HtmlAdapter-143"><a href="#HtmlAdapter-143"><span class="linenos">143</span></a>                <span class="n">message</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span><span id="HtmlAdapter-144"><a href="#HtmlAdapter-144"><span class="linenos">144</span></a>                <span class="n">html_data</span><span class="o">=</span><span class="n">data_out</span><span class="p">,</span>
+</span><span id="HtmlAdapter-145"><a href="#HtmlAdapter-145"><span class="linenos">145</span></a>            <span class="p">)</span>
+</span><span id="HtmlAdapter-146"><a href="#HtmlAdapter-146"><span class="linenos">146</span></a>
+</span><span id="HtmlAdapter-147"><a href="#HtmlAdapter-147"><span class="linenos">147</span></a>        <span class="k">raise</span> <span class="n">HtmlException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="HtmlAdapter-148"><a href="#HtmlAdapter-148"><span class="linenos">148</span></a>
+</span><span id="HtmlAdapter-149"><a href="#HtmlAdapter-149"><span class="linenos">149</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
+</span><span id="HtmlAdapter-150"><a href="#HtmlAdapter-150"><span class="linenos">150</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the html page.</span>
+</span><span id="HtmlAdapter-151"><a href="#HtmlAdapter-151"><span class="linenos">151</span></a>
+</span><span id="HtmlAdapter-152"><a href="#HtmlAdapter-152"><span class="linenos">152</span></a><span class="sd">        Args:</span>
+</span><span id="HtmlAdapter-153"><a href="#HtmlAdapter-153"><span class="linenos">153</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
+</span><span id="HtmlAdapter-154"><a href="#HtmlAdapter-154"><span class="linenos">154</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
+</span><span id="HtmlAdapter-155"><a href="#HtmlAdapter-155"><span class="linenos">155</span></a>
+</span><span id="HtmlAdapter-156"><a href="#HtmlAdapter-156"><span class="linenos">156</span></a><span class="sd">        Returns:</span>
+</span><span id="HtmlAdapter-157"><a href="#HtmlAdapter-157"><span class="linenos">157</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
+</span><span id="HtmlAdapter-158"><a href="#HtmlAdapter-158"><span class="linenos">158</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="HtmlAdapter-159"><a href="#HtmlAdapter-159"><span class="linenos">159</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Adapter for all html based requests.</p>
+</div>
 
-                            <div id="ComponentAdapter.__init__" class="classattr">
-                                        <input id="ComponentAdapter.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+
+                            <div id="HtmlAdapter.__init__" class="classattr">
+                                        <input id="HtmlAdapter.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">ComponentAdapter</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">HtmlAdapter</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;https://www<a href="eventim.html">pyventim.eventim</a>.de/&#39;</span>,</span><span class="param">	<span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
-                <label class="view-source-button" for="ComponentAdapter.__init__-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="HtmlAdapter.__init__-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ComponentAdapter.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ComponentAdapter.__init__-73"><a href="#ComponentAdapter.__init__-73"><span class="linenos">73</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="ComponentAdapter.__init__-74"><a href="#ComponentAdapter.__init__-74"><span class="linenos">74</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
-</span><span id="ComponentAdapter.__init__-75"><a href="#ComponentAdapter.__init__-75"><span class="linenos">75</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-</span><span id="ComponentAdapter.__init__-76"><a href="#ComponentAdapter.__init__-76"><span class="linenos">76</span></a>            <span class="p">{</span>
-</span><span id="ComponentAdapter.__init__-77"><a href="#ComponentAdapter.__init__-77"><span class="linenos">77</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
-</span><span id="ComponentAdapter.__init__-78"><a href="#ComponentAdapter.__init__-78"><span class="linenos">78</span></a>            <span class="p">}</span>
-</span><span id="ComponentAdapter.__init__-79"><a href="#ComponentAdapter.__init__-79"><span class="linenos">79</span></a>        <span class="p">)</span>
-</span><span id="ComponentAdapter.__init__-80"><a href="#ComponentAdapter.__init__-80"><span class="linenos">80</span></a>
-</span><span id="ComponentAdapter.__init__-81"><a href="#ComponentAdapter.__init__-81"><span class="linenos">81</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="s2">&quot;https://www.eventim.de/component&quot;</span>
+    <a class="headerlink" href="#HtmlAdapter.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="HtmlAdapter.__init__-90"><a href="#HtmlAdapter.__init__-90"><span class="linenos"> 90</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span><span id="HtmlAdapter.__init__-91"><a href="#HtmlAdapter.__init__-91"><span class="linenos"> 91</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="HtmlAdapter.__init__-92"><a href="#HtmlAdapter.__init__-92"><span class="linenos"> 92</span></a>        <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://www.eventim.de/&quot;</span><span class="p">,</span>
+</span><span id="HtmlAdapter.__init__-93"><a href="#HtmlAdapter.__init__-93"><span class="linenos"> 93</span></a>        <span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="HtmlAdapter.__init__-94"><a href="#HtmlAdapter.__init__-94"><span class="linenos"> 94</span></a>        <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="HtmlAdapter.__init__-95"><a href="#HtmlAdapter.__init__-95"><span class="linenos"> 95</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="HtmlAdapter.__init__-96"><a href="#HtmlAdapter.__init__-96"><span class="linenos"> 96</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">session</span> <span class="ow">or</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+</span><span id="HtmlAdapter.__init__-97"><a href="#HtmlAdapter.__init__-97"><span class="linenos"> 97</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="HtmlAdapter.__init__-98"><a href="#HtmlAdapter.__init__-98"><span class="linenos"> 98</span></a>            <span class="p">{</span>
+</span><span id="HtmlAdapter.__init__-99"><a href="#HtmlAdapter.__init__-99"><span class="linenos"> 99</span></a>                <span class="s2">&quot;user-agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0&quot;</span>  <span class="c1"># pylint: disable=C0301</span>
+</span><span id="HtmlAdapter.__init__-100"><a href="#HtmlAdapter.__init__-100"><span class="linenos">100</span></a>            <span class="p">}</span>
+</span><span id="HtmlAdapter.__init__-101"><a href="#HtmlAdapter.__init__-101"><span class="linenos">101</span></a>        <span class="p">)</span>
+</span><span id="HtmlAdapter.__init__-102"><a href="#HtmlAdapter.__init__-102"><span class="linenos">102</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="HtmlAdapter.__init__-103"><a href="#HtmlAdapter.__init__-103"><span class="linenos">103</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
 </span></pre></div>
 
 
     
 
                             </div>
-                            <div id="ComponentAdapter.session" class="classattr">
+                            <div id="HtmlAdapter.session" class="classattr">
                                 <div class="attr variable">
             <span class="name">session</span><span class="annotation">: requests.sessions.Session</span>
 
         
     </div>
-    <a class="headerlink" href="#ComponentAdapter.session"></a>
+    <a class="headerlink" href="#HtmlAdapter.session"></a>
     
     
 
                             </div>
-                            <div id="ComponentAdapter.hostname" class="classattr">
+                            <div id="HtmlAdapter.hostname" class="classattr">
                                 <div class="attr variable">
             <span class="name">hostname</span>
 
         
     </div>
-    <a class="headerlink" href="#ComponentAdapter.hostname"></a>
+    <a class="headerlink" href="#HtmlAdapter.hostname"></a>
     
     
 
                             </div>
-                            <div id="ComponentAdapter.get" class="classattr">
-                                        <input id="ComponentAdapter.get-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="HtmlAdapter.get" class="classattr">
+                                        <input id="HtmlAdapter.get-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">get</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="models.html#HtmlResult">pyventim.models.HtmlResult</a></span>:</span></span>
+        <span class="name">get</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="models.html#HtmlResult">pyventim.models.HtmlResult</a></span>:</span></span>
 
-                <label class="view-source-button" for="ComponentAdapter.get-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="HtmlAdapter.get-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#ComponentAdapter.get"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ComponentAdapter.get-113"><a href="#ComponentAdapter.get-113"><span class="linenos">113</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
-</span><span id="ComponentAdapter.get-114"><a href="#ComponentAdapter.get-114"><span class="linenos">114</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the public-api.eventim.com.</span>
-</span><span id="ComponentAdapter.get-115"><a href="#ComponentAdapter.get-115"><span class="linenos">115</span></a>
-</span><span id="ComponentAdapter.get-116"><a href="#ComponentAdapter.get-116"><span class="linenos">116</span></a><span class="sd">        Args:</span>
-</span><span id="ComponentAdapter.get-117"><a href="#ComponentAdapter.get-117"><span class="linenos">117</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
-</span><span id="ComponentAdapter.get-118"><a href="#ComponentAdapter.get-118"><span class="linenos">118</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
-</span><span id="ComponentAdapter.get-119"><a href="#ComponentAdapter.get-119"><span class="linenos">119</span></a>
-</span><span id="ComponentAdapter.get-120"><a href="#ComponentAdapter.get-120"><span class="linenos">120</span></a><span class="sd">        Returns:</span>
-</span><span id="ComponentAdapter.get-121"><a href="#ComponentAdapter.get-121"><span class="linenos">121</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
-</span><span id="ComponentAdapter.get-122"><a href="#ComponentAdapter.get-122"><span class="linenos">122</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="ComponentAdapter.get-123"><a href="#ComponentAdapter.get-123"><span class="linenos">123</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <a class="headerlink" href="#HtmlAdapter.get"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="HtmlAdapter.get-149"><a href="#HtmlAdapter.get-149"><span class="linenos">149</span></a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HtmlResult</span><span class="p">:</span>
+</span><span id="HtmlAdapter.get-150"><a href="#HtmlAdapter.get-150"><span class="linenos">150</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a choosen endpoint on the html page.</span>
+</span><span id="HtmlAdapter.get-151"><a href="#HtmlAdapter.get-151"><span class="linenos">151</span></a>
+</span><span id="HtmlAdapter.get-152"><a href="#HtmlAdapter.get-152"><span class="linenos">152</span></a><span class="sd">        Args:</span>
+</span><span id="HtmlAdapter.get-153"><a href="#HtmlAdapter.get-153"><span class="linenos">153</span></a><span class="sd">            endpoint (str): Endpoint to query.</span>
+</span><span id="HtmlAdapter.get-154"><a href="#HtmlAdapter.get-154"><span class="linenos">154</span></a><span class="sd">            params (Dict | None, optional): Parameters to query. Defaults to None.</span>
+</span><span id="HtmlAdapter.get-155"><a href="#HtmlAdapter.get-155"><span class="linenos">155</span></a>
+</span><span id="HtmlAdapter.get-156"><a href="#HtmlAdapter.get-156"><span class="linenos">156</span></a><span class="sd">        Returns:</span>
+</span><span id="HtmlAdapter.get-157"><a href="#HtmlAdapter.get-157"><span class="linenos">157</span></a><span class="sd">            RestResult: RestResult with status_code, message and json_data</span>
+</span><span id="HtmlAdapter.get-158"><a href="#HtmlAdapter.get-158"><span class="linenos">158</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="HtmlAdapter.get-159"><a href="#HtmlAdapter.get-159"><span class="linenos">159</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Get a choosen endpoint on the public-api.eventim.com.</p>
+            <div class="docstring"><p>Get a choosen endpoint on the html page.</p>
 
 <h6 id="arguments">Arguments:</h6>
 
