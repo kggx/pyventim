@@ -39,18 +39,31 @@ pip install pyventim
 
 ### Quick start
 
-#### Public API
+To find attractions we can use the exploration endpoint:
 
 ```python
-# Import the module
-from pyventim.public import EventimExploration
+import pyventim
 
-# Returns attractions found by the explorer api given the search term.
-explorer: EventimExploration = EventimExploration()
-result = explorer.explore_attractions(
-    search_term="Stage Theater im Hafen Hamburg",
-    sort="DateAsc",
-)
+# Create the Eventim class
+eventim = pyventim.Eventim()
+
+# Returns an iterator that fetches all pages off the search endpoint.
+attractions = eventim.explore_attractions(search_term="Landmvrks")
+
+# We can loop over each attraction. The module handles fetching pages automatically.
+for attraction in attractions:
+    print(attraction["attractionId"], attraction["name"])
+```
+
+Next we use the product group endpoint to fetch events for our attraction and get the events of the html endpoint.
+
+```python
+
+# We loop over each product group and fetch the events automatically.
+for product_group in eventim.explore_product_groups(search_term="Landmvrks"):
+    product_group_id = product_group["productGroupId"]
+    for event in eventim.get_product_group_events_from_calendar(product_group_id):
+        print(event["title"], event["eventDate"], event["price"], event["ticketAvailable"], sep=" | ")
 ```
 
 For a more detailed information please refer to the [documentation](https://kggx.github.io/pyventim/pyventim.html).
