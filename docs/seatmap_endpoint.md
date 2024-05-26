@@ -13,7 +13,7 @@ This function can return data about the seatmap if found in the HTML of the even
 result = eventim.get_event_seatmap_information("/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18500464/")
 ```
 
-A sample for the seatmap information can be found here (Note this is truncated...):
+A sample for the seatmap information can be found here (Note this is truncated.):
 
 ```json
 {
@@ -64,7 +64,7 @@ result = eventim.get_event_seatmap_information("/event/disneys-der-koenig-der-lo
 seatmap = eventim.get_event_seatmap(result["seatmapOptions"])
 ```
 
-A sample for the seatmap information can be found here (Note this is truncated...):
+A sample for the seatmap information can be found here (Note this is fictional data):
 
 ```json
 {
