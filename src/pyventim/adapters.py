@@ -14,6 +14,7 @@ class RestAdapter:
 
     def __init__(
         self,
+        hostname: str,
         session: requests.Session | None = None,
         logger: logging.Logger | None = None,
     ) -> None:
@@ -24,9 +25,7 @@ class RestAdapter:
             }
         )
         self._logger = logger or logging.getLogger(__name__)
-        self.hostname = (
-            "https://public-api.eventim.com/websearch/search/api/exploration"
-        )
+        self.hostname = hostname
 
     def _do(
         self,
@@ -35,7 +34,6 @@ class RestAdapter:
         params: Dict | None = None,
         json_data: Dict | None = None,
     ) -> RestResult:
-        print(method, self.hostname, endpoint, params, json_data)
         try:
             response: requests.Response = self.session.request(
                 method=method,
@@ -90,6 +88,7 @@ class HtmlAdapter:
 
     def __init__(
         self,
+        hostname: str = "https://www.eventim.de/",
         session: requests.Session | None = None,
         logger: logging.Logger | None = None,
     ) -> None:
@@ -100,7 +99,7 @@ class HtmlAdapter:
             }
         )
         self._logger = logger or logging.getLogger(__name__)
-        self.hostname = "https://www.eventim.de/"
+        self.hostname = hostname
 
     def _do(
         self,

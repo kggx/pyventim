@@ -5,8 +5,7 @@ from pyventim import adapters  # pylint: disable=E0401
 from pyventim import exceptions  # pylint: disable=E0401
 
 
-exp = adapters.RestAdapter()
-exp.hostname = "https://httpstat.us/"
+exp = adapters.RestAdapter(hostname="https://httpstat.us/")
 exp.session.headers.update({"accept": "application/json"})
 
 

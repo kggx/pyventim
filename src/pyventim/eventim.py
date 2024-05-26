@@ -9,6 +9,10 @@ from .utils import (
     parse_has_next_page_from_component_html,
     parse_list_from_component_html,
     parse_calendar_from_component_html,
+    parse_has_seatmap_from_event_html,
+    parse_seatmap_configuration_from_event_html,
+    parse_seatmap_url_params_from_seatmap_information,
+    parse_seathamp_data_from_api,
 )
 
 
@@ -18,7 +22,12 @@ class Eventim:
     def __init__(
         self,
     ) -> None:
-        self.rest_adapter: RestAdapter = RestAdapter()
+        self.rest_adapter: RestAdapter = RestAdapter(
+            hostname="https://public-api.eventim.com/websearch/search/api/exploration"
+        )
+        self.private_rest_adapter: RestAdapter = RestAdapter(
+            hostname="https://api.eventim.com"
+        )
         self.html_adapter: HtmlAdapter = HtmlAdapter()
 
     def explore_attractions(
@@ -245,3 +254,51 @@ class Eventim:
 
         for product_group_event in calendar_content["result"]:
             yield product_group_event
+
+    def get_event_seatmap_information(self, event_url: str) -> Dict | None:
+        """Given a event url like "/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18500464/" the function will return the seatmap information if present.
+
+        Args:
+            event_url (str): Event url to be checked
+
+        Returns:
+            Dict | None: Returns the seatmap option or None if nothing was found in the html.s
+        """
+        # pylint: disable=line-too-long
+        event_key = event_url.split("/")[2]
+        html_result = self.html_adapter.get(endpoint=f"event/{event_key}", params=None)
+
+        if not parse_has_seatmap_from_event_html(html_result.html_data):
+            return None
+
+        return parse_seatmap_configuration_from_event_html(html_result.html_data)
+
+    def get_event_seatmap(self, seatmap_options: dict, parse: bool = True) -> Dict:
+        """This function gets a seatmap from the private eventim api using embeded signed links.
+
+        Args:
+            seatmap_options (dict): Seatmap options taken from the get_event_seatmap_information function.
+            parse (bool, optional): Whether to return a parsed or raw result. Defaults to True.
+
+        Returns:
+            Dict: Result of the seatmap call. Only returns avialible seats in event. Note: Standing seats are also not included!
+        """
+        # pylint: disable=line-too-long
+
+        # Get the url via seatmap options
+        params = parse_seatmap_url_params_from_seatmap_information(
+            options=seatmap_options
+        )
+
+        # Fetch data
+        seatmap = self.private_rest_adapter.get(
+            endpoint="seatmap/api/SeatMapHandler",
+            params=params,
+        )
+
+        # Export raw if desired
+        if not parse:
+            return seatmap.json_data
+
+        # Return the parsed
+        return parse_seathamp_data_from_api(seatmap.json_data)

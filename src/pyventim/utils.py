@@ -126,6 +126,15 @@ def parse_seatmap_configuration_from_event_html(html: str) -> Dict:
 
 
 def parse_seathamp_data_from_api(seatmap_data: Dict) -> Dict:
+    # pylint: disable=line-too-long
+    """This function parses the eventim seatmap data in a more readable format
+
+    Args:
+        seatmap_data (Dict): Raw seatmap data returned by a eventim event page.
+
+    Returns:
+        Dict: Seat map data in a readable format. Seatmap meta and seats in the format "Block -> Row -> Seat"
+    """
     blocks = []
     for block in seatmap_data["blocks"]:
         rows = []
@@ -158,7 +167,7 @@ def parse_seathamp_data_from_api(seatmap_data: Dict) -> Dict:
     # Parse pricing categories
     price_categories = [
         dict(
-            price_category_id=x[0], price_category_name=x[1], price_category_color=x[1]
+            price_category_id=x[0], price_category_name=x[1], price_category_color=x[2]
         )
         for x in seatmap_data["pcs"]
     ]
@@ -175,4 +184,23 @@ def parse_seathamp_data_from_api(seatmap_data: Dict) -> Dict:
     return seatmap
 
 
-# TODO: Parse seatmap url from config
+def parse_seatmap_url_params_from_seatmap_information(options: dict) -> Dict:
+    """This function builds a private signed api url from the obtained seatmap information.
+
+    Args:
+        options (dict): Options to be processed
+
+    Returns:
+        Dict: Dictionary containing key, value pairs for the request
+    """
+    params = {
+        param.split("=")[0]: param.split("=")[1]
+        for param in options["additionalRequestParams"][1:].split("&")
+    }
+    # Add additional parmeter to the params
+    params["cType"] = options["cType"]
+    params["evId"] = options["evId"]
+    params["cId"] = options["cId"]
+    params["fun"] = "json"
+
+    return params
