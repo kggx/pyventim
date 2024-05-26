@@ -27,6 +27,7 @@ let
       pdoc
       twine
       build
+      pillow
     ]
   );
 

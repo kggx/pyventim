@@ -32,7 +32,7 @@ class ComponentParameters(BaseModel):
     doc: Literal["component"] = "component"
     fun: Literal["eventselectionbox"] = "eventselectionbox"
 
-    esid: int
+    esid: int  # product_group_id
     pnum: int = 1  # This is optional but recommended to start at 1
 
     startdate: Optional[date] = None

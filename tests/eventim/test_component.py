@@ -11,20 +11,20 @@ EVENTIM = Eventim()
 # We are testing against a long running german musical prone NOT to change with a known theater
 LOCATION = "Stage Theater im Hafen Hamburg"
 ATTRACTION = "Disneys DER KÖNIG DER LÖWEN"
-ATTRACTION_ID = 473431
+PRODUCT_GROUP_ID = 473431
 
 SORT = "DateAsc"
 
 
-def test_get_attraction_events_success():
-    """Tests the attractions on a fixed attraction"""
+def test_get_product_group_events():
+    """Tests on a fixed product_group"""
     # Check the overall result to be a iterator
-    attractions = EVENTIM.get_attraction_events(ATTRACTION_ID)
+    product_group_events = EVENTIM.get_product_group_events(PRODUCT_GROUP_ID)
 
-    assert isinstance(attractions, Iterator)
+    assert isinstance(product_group_events, Iterator)
 
     # Item check
-    first_item = next(attractions)
+    first_item = next(product_group_events)
 
     assert isinstance(first_item, Dict)
 
@@ -54,15 +54,17 @@ def test_get_attraction_events_success():
     assert first_item["location"]["name"] == "Stage Theater im Hafen Hamburg"
 
 
-def test_get_attraction_events_from_calendar():
-    """Tests the attractions on a fixed attraction"""
+def test_get_product_group_events_from_calendar():
+    """Tests on a fixed product_group"""
     # Check the overall result to be a iterator
-    attractions = EVENTIM.get_attraction_events_from_calendar(ATTRACTION_ID)
+    product_group_events = EVENTIM.get_product_group_events_from_calendar(
+        PRODUCT_GROUP_ID
+    )
 
-    assert isinstance(attractions, Iterator)
+    assert isinstance(product_group_events, Iterator)
 
     # Item check
-    first_item = next(attractions)
+    first_item = next(product_group_events)
 
     assert isinstance(first_item, Dict)
 

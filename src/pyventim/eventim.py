@@ -4,11 +4,15 @@ from datetime import date, time
 from typing import Literal, Iterator, Dict, List
 
 from .models import ExplorationParameters, ComponentParameters
-from .adapters import ExplorationAdapter, ComponentAdapter  # pylint: disable=E0401
+from .adapters import RestAdapter, HtmlAdapter  # pylint: disable=E0401
 from .utils import (
     parse_has_next_page_from_component_html,
     parse_list_from_component_html,
     parse_calendar_from_component_html,
+    parse_has_seatmap_from_event_html,
+    parse_seatmap_configuration_from_event_html,
+    parse_seatmap_url_params_from_seatmap_information,
+    parse_seathamp_data_from_api,
 )
 
 
@@ -18,8 +22,13 @@ class Eventim:
     def __init__(
         self,
     ) -> None:
-        self.explorer_api: ExplorationAdapter = ExplorationAdapter()
-        self.component_adapter: ComponentAdapter = ComponentAdapter()
+        self.rest_adapter: RestAdapter = RestAdapter(
+            hostname="https://public-api.eventim.com/websearch/search/api/exploration"
+        )
+        self.private_rest_adapter: RestAdapter = RestAdapter(
+            hostname="https://api.eventim.com"
+        )
+        self.html_adapter: HtmlAdapter = HtmlAdapter()
 
     def explore_attractions(
         self,
@@ -46,7 +55,7 @@ class Eventim:
 
         while True:
 
-            rest_result = self.explorer_api.get(
+            rest_result = self.rest_adapter.get(
                 endpoint="v1/attractions", params=params.model_dump(exclude_none=True)
             )
 
@@ -85,7 +94,7 @@ class Eventim:
         )
 
         while True:
-            rest_result = self.explorer_api.get(
+            rest_result = self.rest_adapter.get(
                 endpoint="v1/locations", params=params.model_dump(exclude_none=True)
             )
 
@@ -143,7 +152,7 @@ class Eventim:
         )
 
         while True:
-            rest_result = self.explorer_api.get(
+            rest_result = self.rest_adapter.get(
                 endpoint="v2/productGroups", params=params.model_dump(exclude_none=True)
             )
 
@@ -158,21 +167,21 @@ class Eventim:
 
             params.page = params.page + 1
 
-    def get_attraction_events(
+    def get_product_group_events(
         self,
-        attraction_id: int,
+        product_group_id: int,
         date_from: date | None = None,
         date_to: date | None = None,
         ticket_type: Literal["tickets", "vip_packages", "extras"] | None = None,
         city_name: str | None = None,
     ) -> Iterator[Dict]:
         # pylint: disable=line-too-long
-        """This returns the attraction events. The attraction events follow this schema: https://schema.org/MusicEvent.
+        """This returns the product_group_id events. The product_group_id events follow this schema: https://schema.org/MusicEvent.
         The API only returns a maximum of 90 events. This should be plenty but some event types like continous musicals have more than 90 events
-        **If you try to fetching many events (>90) at a time then get_attraction_events_from_calendar() should be used.**
+        **If you try to fetching many events (>90) at a time then get_product_group_events_from_calendar() should be used.**
 
         Args:
-            attraction_id (int): Attraction ID to query
+            product_group_id (int): product_group_id to query
             date_from (date | None, optional): Event date later than. Defaults to None.
             date_to (date | None, optional): Event date earlier than. Defaults to None.
             ticket_type (Literal[&quot;tickets&quot;, &quot;vip_packages&quot;, &quot;extras&quot;] | None, optional): Include only events with tickets avialible in type. Defaults to None.
@@ -183,7 +192,7 @@ class Eventim:
         """
 
         params = ComponentParameters(
-            esid=attraction_id,
+            esid=product_group_id,
             startdate=date_from,
             enddate=date_to,
             ptype=ticket_type,
@@ -191,32 +200,32 @@ class Eventim:
         )
 
         while params.pnum <= 10:
-            comp_result = self.component_adapter.get(
-                params=params.model_dump(exclude_none=True)
+            comp_result = self.html_adapter.get(
+                endpoint="component", params=params.model_dump(exclude_none=True)
             )
-            attraction_events = parse_list_from_component_html(comp_result.html_data)
+            product_group_events = parse_list_from_component_html(comp_result.html_data)
 
-            for attraction_event in attraction_events:
-                yield attraction_event
+            for product_group_event in product_group_events:
+                yield product_group_event
 
             if parse_has_next_page_from_component_html(comp_result.html_data) is False:
                 break
 
             params.pnum = params.pnum + 1
 
-    def get_attraction_events_from_calendar(
+    def get_product_group_events_from_calendar(
         self,
-        attraction_id: int,
+        product_group_id: int,
         date_from: date | None = None,
         date_to: date | None = None,
         ticket_type: Literal["tickets", "vip_packages", "extras"] | None = None,
         city_name: str | None = None,
     ) -> Iterator[Dict]:
         # pylint: disable=line-too-long
-        """This returns the attraction events. The attraction events follow a custom calendar schema.
+        """This returns the product_group events. The product_group events follow a custom calendar schema.
 
         Args:
-            attraction_id (int): Attraction ID to query
+            product_group_id (int): product_group_id to query
             date_from (date | None, optional): Event date later than. Defaults to None.
             date_to (date | None, optional): Event date earlier than. Defaults to None.
             ticket_type (Literal[&quot;tickets&quot;, &quot;vip_packages&quot;, &quot;extras&quot;] | None, optional): Include only events with tickets avialible in type. Defaults to None.
@@ -226,15 +235,15 @@ class Eventim:
             Iterator[Dict]: The events in a calendar schema.
         """
         params = ComponentParameters(
-            esid=attraction_id,
+            esid=product_group_id,
             startdate=date_from,
             enddate=date_to,
             ptype=ticket_type,
             cityname=city_name,
         )
 
-        comp_result = self.component_adapter.get(
-            params=params.model_dump(exclude_none=True)
+        comp_result = self.html_adapter.get(
+            endpoint="component", params=params.model_dump(exclude_none=True)
         )
 
         calendar_configuration = parse_calendar_from_component_html(
@@ -243,5 +252,53 @@ class Eventim:
 
         calendar_content = calendar_configuration["calendar_content"]
 
-        for attraction_event in calendar_content["result"]:
-            yield attraction_event
+        for product_group_event in calendar_content["result"]:
+            yield product_group_event
+
+    def get_event_seatmap_information(self, event_url: str) -> Dict | None:
+        """Given a event url like "/event/disneys-der-koenig-der-loewen-stage-theater-im-hafen-hamburg-18500464/" the function will return the seatmap information if present.
+
+        Args:
+            event_url (str): Event url to be checked
+
+        Returns:
+            Dict | None: Returns the seatmap option or None if nothing was found in the html.s
+        """
+        # pylint: disable=line-too-long
+        event_key = event_url.split("/")[2]
+        html_result = self.html_adapter.get(endpoint=f"event/{event_key}", params=None)
+
+        if not parse_has_seatmap_from_event_html(html_result.html_data):
+            return None
+
+        return parse_seatmap_configuration_from_event_html(html_result.html_data)
+
+    def get_event_seatmap(self, seatmap_options: dict, parse: bool = True) -> Dict:
+        """This function gets a seatmap from the private eventim api using embeded signed links.
+
+        Args:
+            seatmap_options (dict): Seatmap options taken from the get_event_seatmap_information function.
+            parse (bool, optional): Whether to return a parsed or raw result. Defaults to True.
+
+        Returns:
+            Dict: Result of the seatmap call. Only returns avialible seats in event. Note: Standing seats are also not included!
+        """
+        # pylint: disable=line-too-long
+
+        # Get the url via seatmap options
+        params = parse_seatmap_url_params_from_seatmap_information(
+            options=seatmap_options
+        )
+
+        # Fetch data
+        seatmap = self.private_rest_adapter.get(
+            endpoint="seatmap/api/SeatMapHandler",
+            params=params,
+        )
+
+        # Export raw if desired
+        if not parse:
+            return seatmap.json_data
+
+        # Return the parsed
+        return parse_seathamp_data_from_api(seatmap.json_data)
