@@ -73,6 +73,9 @@ def test_get_event_seatmap():
             "seatmap_key",
             "seatmap_timestamp",
             "seatmap_individual_seats",
+            "seatmap_dimension_x",
+            "seatmap_dimension_y",
+            "seatmap_seat_size",
             "blocks",
             "price_categories",
         ]

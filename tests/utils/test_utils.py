@@ -203,6 +203,8 @@ def test_parse_seathamp_data_from_api():
         "key": "web_1_16825147_0_EVE_0",
         "availabilityTimestamp": 1716215061170,
         "individualSeats": 2051,
+        "dimension": [4096, 4096],
+        "seatSize": 59,
         "blocks": [dummy_block],
         "pcs": [["p32914323", "Kat. 1 Premium", "#f1075e", "#ffffff"]],
     }
@@ -214,6 +216,9 @@ def test_parse_seathamp_data_from_api():
             "seatmap_key",
             "seatmap_timestamp",
             "seatmap_individual_seats",
+            "seatmap_dimension_x",
+            "seatmap_dimension_y",
+            "seatmap_seat_size",
             "blocks",
             "price_categories",
         ]
@@ -223,6 +228,10 @@ def test_parse_seathamp_data_from_api():
     assert result["seatmap_key"] == "web_1_16825147_0_EVE_0"
     assert result["seatmap_timestamp"] == 1716215061170
     assert result["seatmap_individual_seats"] == 2051
+
+    assert result["seatmap_dimension_x"] == 4096
+    assert result["seatmap_dimension_y"] == 4096
+    assert result["seatmap_seat_size"] == 59
 
     # Block
     block = result["blocks"][0]
@@ -245,5 +254,3 @@ def test_parse_seathamp_data_from_api():
     assert price_category["price_category_id"] == "p32914323"
     assert price_category["price_category_name"] == "Kat. 1 Premium"
     assert price_category["price_category_color"] == "#f1075e"
-
-    print(result)

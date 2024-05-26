@@ -177,6 +177,9 @@ def parse_seathamp_data_from_api(seatmap_data: Dict) -> Dict:
         seatmap_key=seatmap_data["key"],
         seatmap_timestamp=seatmap_data["availabilityTimestamp"],
         seatmap_individual_seats=seatmap_data["individualSeats"],
+        seatmap_dimension_x=seatmap_data["dimension"][0],
+        seatmap_dimension_y=seatmap_data["dimension"][1],
+        seatmap_seat_size=seatmap_data["seatSize"],
         blocks=blocks,
         price_categories=price_categories,
     )
