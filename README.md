@@ -1,3 +1,4 @@
+
 [![Testing](https://github.com/kggx/pyventim/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/testing.yml)
 [![Documentation](https://github.com/kggx/pyventim/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/kggx/pyventim/actions/workflows/docs.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
@@ -7,9 +8,9 @@
 [![Coverage](https://codecov.io/github/kggx/pyventim/coverage.svg?branch=main)](https://app.codecov.io/github/kggx/pyventim)
 
 ---
+> [!CAUTION]
+> Due to Microsofts change of direction, this project will be moved to [Codeberg (openevent/pyventim)](https://codeberg.org/openevent/pyventim). Additionally, it is planned to start working on this again in a greater context.
 
-> [!NOTE]
-> Consider the whole project as unstable until version 1.0.0 is reached.
 
 # pyventim
 
@@ -21,6 +22,10 @@ The [Eventim](https://www.eventim.com/) API has some public endpoints but also h
 
 > [!IMPORTANT]
 > Be aware that the APIs of Eventim can change without notice and therefore break the module.
+
+> [!NOTE]
+> Consider the whole project as unstable until version 1.0.0 is reached.
+
 
 ## Getting Started
 
